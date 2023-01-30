@@ -1,34 +1,45 @@
+# Heavily inspired by https://github.com/NULLx76/infrastructure
+
 {
+  description = "Jonathan Dönszelmann's infrastructure";
+
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    colmena.url = "github:zhaofengli/colmena";
+    home-manager.url = "github:nix-community/home-manager";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
-  outputs = { nixpkgs, ... }: {
-    colmena = {
-      meta = {
-        nixpkgs = import nixpkgs {
-          system = "x86_64-linux";
-          overlays = [];
+
+  outputs = { nixpkgs, colmena, ... }:
+    let
+      system = "x86_64-linux";
+      pkgs = import nixpkgs {
+        inherit system;
+        overlays = [ ];
+      };
+      utils = import "./utils/default.nix";
+    in
+    {
+      colmena = {
+        meta = {
+          nixpkgs = pkgs;
+          specialArgs = { inherit utils; };
+        };
+
+        fili = {
+          deployment = {
+            targetHost = "donsz.nl";
+            targetPort = 1234;
+            targetUser = "system";
+            tags = [ "fili" ];
+          };
+
+          imports = [ ./hosts/fili/configuration.nix ];
         };
       };
 
-      fili = {
-        deployment = {
-          targetHost = "jdonszelmann.nl";
-          targetPort = 1234;
-          targetUser = "root";
-          tags = "fili";
-        };
-        time.timeZone = "Europe/Amsterdam";
-        
-        services.openssh.enable = true;
-        services.openssh.permitRootLogin = "yes";
-
-        environment.systemPackages = with pkgs; [
-            vim
-        ];
-
-        system.stateVersion = "22.11"; 
+      packages.${system} = {
+        default = colmena.packages.${system}.colmena;
       };
     };
-  };
 }
