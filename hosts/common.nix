@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }: {
+{ inputs, config, pkgs, lib, ... }: {
   imports = [
     ../users
   ];
@@ -49,6 +49,15 @@
     '';
   };
 
+  virtualisation =
+    {
+      # enable podman
+      podman = {
+        enable = true;
+        dockerCompat = true;
+      };
+    };
+
   nixpkgs.config.allowUnfree = true;
 
   # Limit the systemd journal to 100 MB of disk or the
@@ -65,5 +74,40 @@
       PasswordAuthentication = lib.mkDefault false;
       PermitRootLogin = lib.mkDefault "no";
     };
+  };
+
+  programs.neovim = {
+    enable = true;
+    # package = pkgs.neovim-unwrapped;
+
+    # extraPlugins = with pkgs.vimPlugins; [ catppuccin-nvim ];
+
+    # colorscheme = "catppuccin-frappe";
+
+    # plugins = {
+    #   nix.enable = true;
+    #   treesitter = {
+    #     enable = true;
+    #     nixGrammars = false;
+    #     ensureInstalled = [ ];
+    #   };
+    #   surround.enable = true;
+    #   fugitive.enable = true;
+    #   lualine = {
+    #     enable = true;
+    #     theme = "catppuccin";
+    #   };
+    #   telescope = {
+    #     enable = true;
+    #     extensions.fzf-native.enable = true;
+    #   };
+    #   # lsp = {
+    #   #   enable = true;
+    #   #   servers.rust-analyzer.enable = true;
+    #   #   servers.rnix-lsp.enable = true;
+    #   #   servers.pyright.enable = true;
+    #   # };
+    #   nvim-cmp = { enable = true; };
+    # };
   };
 }

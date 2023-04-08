@@ -1,3 +1,0 @@
-{
-  app = import "./app.nix";
-}

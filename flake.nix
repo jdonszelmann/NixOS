@@ -8,22 +8,23 @@
     colmena.url = "github:zhaofengli/colmena";
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    # nixvim.url = "github:pta2002/nixvim";
   };
 
-  outputs = { nixpkgs, colmena, ... }:
+  outputs = { nixpkgs, colmena, ... }@inputs:
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs {
         inherit system;
         overlays = [ ];
       };
-      utils = import "./utils/default.nix";
+      util = import ./util/default.nix inputs;
     in
     {
       colmena = {
         meta = {
           nixpkgs = pkgs;
-          specialArgs = { inherit utils; };
+          specialArgs = { inherit util inputs; };
         };
 
         fili = {

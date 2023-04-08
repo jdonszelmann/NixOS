@@ -26,6 +26,12 @@
       fsType = "vfat";
     };
 
+  fileSystems."/storage" = {
+    device = "192.168.0.8:/Backups";
+    fsType = "nfs";
+    options = [ "nfsvers=3" ];
+  };
+
   swapDevices =
     [{ device = "/dev/disk/by-uuid/eb6ee273-11d1-4f11-8230-45be75fe036f"; }];
 
