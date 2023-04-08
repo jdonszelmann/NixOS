@@ -1,6 +1,6 @@
-{ util, lib, ... }:
+{ util, lib, config, ... }:
 let
-  # vs = config.vault-secrets.secrets;
+  vs = config.vault-secrets.secrets;
   domain = "md.donsz.nl";
   port = util.randomPort domain;
   database = util.database {
@@ -16,11 +16,11 @@ lib.mkMerge [
   database.create
   reverse-proxy.create
   {
-    # vault-secrets.secrets.hedgedoc = { };
+    vault-secrets.secrets.markdown = { };
 
     services.hedgedoc = {
       enable = true;
-      # environmentFile = "${vs.markdown}/environment";
+      environmentFile = "${vs.markdown}/environment";
       settings = {
         host = "0.0.0.0";
         port = port;

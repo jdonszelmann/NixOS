@@ -8,7 +8,7 @@ in
   well-known = reverse-proxy.well-known;
 
   # randomPort isn't actually a random port. Instead it's basically a hash
-  # of the app name
+  # of the app name.
   randomPort = name:
     let
       # take the sha512

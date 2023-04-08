@@ -1,6 +1,7 @@
 { inputs, config, pkgs, lib, ... }: {
   imports = [
     ../users
+    inputs.vault-secrets.nixosModules.vault-secrets
   ];
 
   # Clean /tmp on boot.

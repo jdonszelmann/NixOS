@@ -9,7 +9,10 @@ in
     ./apps
   ];
 
-  environment.systemPackages = with pkgs; [ nfs-utils ];
+  environment.systemPackages = with pkgs; [
+    nfs-utils
+    pkgs.vault
+  ];
 
   services.nginx = {
     enable = true;
@@ -29,4 +32,8 @@ in
   networking.hostName = "fili";
   system.stateVersion = "22.11";
 
+  vault-secrets = {
+    vaultPrefix = "kv/servers/${config.networking.hostName}";
+    vaultAddress = "http://localhost:8200";
+  };
 }

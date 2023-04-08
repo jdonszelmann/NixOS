@@ -1,5 +1,6 @@
 { pkgs, libs, ... }: {
   imports = [
+    ./vault.nix
     ./databases.nix
     ./nginx.nix
     ./md.nix
