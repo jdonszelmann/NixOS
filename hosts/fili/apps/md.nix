@@ -20,7 +20,7 @@ lib.mkMerge [
 
     services.hedgedoc = {
       enable = true;
-      environmentFile = "${vs.markdown}/environment";
+      # environmentFile = "${vs.markdown}/environment";
       settings = {
         host = "0.0.0.0";
         port = port;
