@@ -27,7 +27,6 @@
     package = pkgs.mariadb;
     settings = {
       mysqld = {
-        # log-error = "/var/log/mysql_err.log";
         bind-address = "0.0.0.0";
       };
     };
