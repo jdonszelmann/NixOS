@@ -12,7 +12,7 @@
     # nixvim.url = "github:pta2002/nixvim";
   };
 
-  outputs = { nixpkgs, colmena, vault-secrets, ... }@inputs:
+  outputs = { self, nixpkgs, colmena, vault-secrets, ... }@inputs:
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs {
