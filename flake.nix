@@ -45,6 +45,7 @@
             targetPort = 1234;
             targetUser = "system";
             tags = [ "fili" ];
+            allowLocalDeployment = true;
           };
 
           imports = [ ./hosts/fili/configuration.nix ];
