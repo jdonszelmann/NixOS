@@ -33,6 +33,17 @@
       '';
     in
     {
+      # necessary for vault to work
+      nixosConfigurations =
+        (import (inputs.colmena + "/src/nix/hive/eval.nix") {
+          rawFlake = self;
+          colmenaOptions =
+            import (inputs.colmena + "/src/nix/hive/options.nix");
+          colmenaModules =
+            import (inputs.colmena + "/src/nix/hive/modules.nix");
+        }).nodes;
+
+
       colmena = {
         meta = {
           nixpkgs = pkgs;
