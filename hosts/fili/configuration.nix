@@ -47,8 +47,8 @@ in
   system.stateVersion = "22.11";
 
   vault-secrets = {
-    vaultPrefix = "kv/servers/${config.networking.hostName}";
+    vaultPrefix = "${config.networking.hostName}_secrets";
     vaultAddress = "http://192.168.0.59:8200";
-    approlePrefix = "fili";
+    approlePrefix = config.networking.hostName;
   };
 }
