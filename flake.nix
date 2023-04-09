@@ -52,7 +52,10 @@
       };
 
       packages.${system} = {
+        inherit apply-local;
+
         default = colmena.packages.${system}.colmena;
+
       };
 
       devShells.${system}.default = pkgs.mkShell {

@@ -6,6 +6,7 @@
     recommendedProxySettings = true;
     recommendedTlsSettings = true;
     recommendedOptimisation = true;
+    recommendedGzipSettings = true;
     clientMaxBodySize = "500m";
 
     # TODO: brotli

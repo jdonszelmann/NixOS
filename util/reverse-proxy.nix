@@ -4,6 +4,9 @@
     create = {
       services.nginx = {
         virtualHosts.${domain} = {
+          enableACME = true;
+          forceSSL = true;
+
           # put all the locations in the config
           locations = {
             "/.well-known/${name}".extraConfig = ''

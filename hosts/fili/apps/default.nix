@@ -5,6 +5,7 @@
     ./nginx.nix
     ./md.nix
     ./matrix.nix
+    ./minio.nix
   ];
 
   # make nix containers work

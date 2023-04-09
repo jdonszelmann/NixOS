@@ -48,6 +48,7 @@ in
 
   vault-secrets = {
     vaultPrefix = "kv/servers/${config.networking.hostName}";
-    vaultAddress = "http://localhost:8200";
+    vaultAddress = "http://192.168.0.59:8200";
+    approlePrefix = "fili";
   };
 }
