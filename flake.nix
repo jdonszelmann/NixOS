@@ -76,7 +76,7 @@
       };
 
       devShells.${system}.default = pkgs.mkShell {
-        VAULT_ADDR = "http://localhost:8200/";
+        VAULT_ADDR = "http://192.168.0.59:8200/";
         buildInputs = with pkgs; [
           apply-local
           colmena.packages.${system}.colmena

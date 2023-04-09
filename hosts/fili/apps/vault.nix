@@ -21,8 +21,8 @@ in
     extraConfig = ''
       ui = true
       disable_mlock = true
-      api_addr = "http://localhost:${toString port}"
-      cluster_addr = "http://localhost:${toString cluster_port}"
+      api_addr = "http://0.0.0.0:${toString port}"
+      cluster_addr = "http://0.0.0.0:${toString cluster_port}"
     '';
   };
 }
