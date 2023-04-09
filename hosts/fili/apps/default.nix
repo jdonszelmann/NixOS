@@ -6,6 +6,7 @@
     ./md.nix
     ./matrix.nix
     ./minio.nix
+    ./mastodon.nix
   ];
 
   # make nix containers work

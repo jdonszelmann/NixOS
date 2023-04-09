@@ -1,12 +1,6 @@
 { nixpkgs, ... }@inputs: with builtins; with { lib = (nixpkgs.lib); };
 let
   reverse-proxy = import ./reverse-proxy.nix inputs;
-in
-{
-  database = import ./database.nix inputs;
-  reverse-proxy = reverse-proxy.reverse-proxy;
-  well-known = reverse-proxy.well-known;
-
   # randomPort isn't actually a random port. Instead it's basically a hash
   # of the app name.
   randomPort = name:
@@ -42,4 +36,11 @@ in
     # if it's in a nice range, let's go! else let's retry with a '-' added
     if res > 9000 && res < 65000 then res else randomPort (name + "-")
   ;
+in
+{
+  database = import ./database.nix inputs;
+  reverse-proxy = reverse-proxy.reverse-proxy;
+  well-known = reverse-proxy.well-known;
+
+  inherit randomPort;
 }
