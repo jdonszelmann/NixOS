@@ -54,9 +54,14 @@
 
       packages.${system} = {
         inherit apply-local;
-
         default = colmena.packages.${system}.colmena;
 
+        push-vault-secrets = with pkgs;
+          writeScriptBin "push-vault-secrets" ''
+            set -o xtrace
+            ${vault-push-approles self}/bin/vault-push-approles &&
+              ${vault-push-approle-envs self}/bin/vault-push-approle-envs
+          '';
       };
 
       devShells.${system}.default = pkgs.mkShell {
