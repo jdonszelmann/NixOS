@@ -38,7 +38,7 @@ lib.mkMerge [
         allowAnonymousEdits = true;
         allowFreeURL = true;
         requireFreeURLAuthentication = true;
-        # imageUploadType = "minio";
+        imageUploadType = "minio";
         db = {
           dialect = "mysql";
           username = database.username;
@@ -46,14 +46,14 @@ lib.mkMerge [
           password = database.password;
           host = "localhost";
         };
-        # s3bucket = "hedgedoc";
-        # minio = {
-        # secure = true;
-        # endPoint = "o.0x76.dev";
-        # port = 443;
-        # accessKey = "$MINIO_ACCESS_KEY";
-        # secretKey = "$MINIO_SECRET_KEY";
-        # };
+        s3bucket = "hedgedoc";
+        minio = {
+          secure = true;
+          endPoint = "s3.donsz.nl";
+          port = 443;
+          accessKey = "$MINIO_ACCESS_KEY";
+          secretKey = "$MINIO_SECRET_KEY";
+        };
       };
     };
   }
