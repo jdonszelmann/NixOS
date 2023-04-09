@@ -46,7 +46,7 @@ lib.mkMerge [
           password = database.password;
           host = "localhost";
         };
-        s3bucket = "hedgedoc";
+        s3bucket = "markdown";
         minio = {
           secure = true;
           endPoint = "s3.donsz.nl";
