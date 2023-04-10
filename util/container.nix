@@ -1,6 +1,6 @@
-{ nixpkgs, ... }: with builtins; with { lib = (nixpkgs.lib); }; let
-  reverse-proxy = (import ./reverse-proxy.nix).reverse-proxy;
-  randomPort = (import ../default.nix).randomPort;
+{ nixpkgs, ... }@inputs: with builtins; with { lib = (nixpkgs.lib); }; let
+  reverse-proxy = (import ./default.nix inputs).reverse-proxy;
+  randomPort = (import ./default.nix inputs).randomPort;
 in
 {
   standardContainer =
@@ -12,25 +12,25 @@ in
     , volumes ? [ ]
     }@args:
     let
-      from = "${name}.${domain}";
-      hostPort = randomPort from;
+      hostPort = randomPort domain;
       proxy = reverse-proxy
         {
-          from = from;
+          from = domain;
           to = hostPort;
         };
     in
-    {
-
-      virtualisation.oci-containers.containers = {
-        inherit image;
-        ports = [ "127.0.0.1:${toString hostPort}:${toString port}" ];
-        config = {
-          hostName = name;
+    lib.mkMerge [
+      proxy.create
+      {
+        virtualisation.oci-containers.containers = {
+          ${name} = {
+            inherit image;
+            ports = [ "127.0.0.1:${toString hostPort}:${toString port}" ];
+            environment = env;
+            cmd = lib.mkIf (args ? cmd) args.cmd;
+            volumes = volumes;
+          };
         };
-        environment = env;
-        cmd = lib.mkIf (args ? cmd) args.cmd;
-        volumes = volumes;
-      };
-    };
+      }
+    ];
 }

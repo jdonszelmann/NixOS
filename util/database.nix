@@ -44,7 +44,7 @@ let
   getDbEnvOptions = env: database:
     # TODO: check that there are no other envvars / assert for misspellings
     { ${env.name or null} = database.name; } //
-    { ${env.port or null} = database.port; } //
+    { ${env.port or null} = toString database.port; } //
     { ${env.host or null} = database.host; } //
     { ${env.username or null} = database.username; } //
     { ${env.password or null} = database.password; };

@@ -39,7 +39,7 @@ let
 in
 {
   database = import ./database.nix inputs;
-  container = (import ./container.nix inputs).standardContainer;
+  standardContainer = (import ./container.nix inputs).standardContainer;
   reverse-proxy = reverse-proxy.reverse-proxy;
   well-known = reverse-proxy.well-known;
 
