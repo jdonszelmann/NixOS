@@ -45,7 +45,7 @@ let
     # TODO: check that there are no other envvars / assert for misspellings
     { ${env.name or null} = database.name; } //
     { ${env.port or null} = toString database.port; } //
-    { ${env.host or null} = database.host; } //
+    { ${env.host or null} = if env.docker or true then "host.containers.internal" else database.host; } //
     { ${env.username or null} = database.username; } //
     { ${env.password or null} = database.password; };
 

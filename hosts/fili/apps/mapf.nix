@@ -11,6 +11,7 @@ let
         password = "MAPF_DBPASSWORD";
         port = "MAPF_DBPORT";
         host = "MAPF_DBHOST";
+        docker = true;
       };
     };
 in
