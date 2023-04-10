@@ -22,7 +22,7 @@ lib.mkMerge [
   (util.standardContainer {
     domain = "mapf.nl";
     name = "mapf";
-    image = "docker.donsz.nl/mapf-prod";
+    image = "docker.donsz.nl/mapf";
     port = 8080;
     env = database.env // {
       MAPF_SECRET = "${vs.mapf-prod}/session-secret";
