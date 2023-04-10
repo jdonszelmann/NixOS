@@ -4,6 +4,7 @@ let
   port = 8200;
   cluster_port = 8201;
   node_id = "fili";
+  networking = import ../networking.nix;
 in
 {
   networking.firewall.allowedTCPPorts = [ port cluster_port ];
@@ -12,7 +13,7 @@ in
     enable = true;
     # bin version includes the UI
     package = pkgs.vault-bin;
-    address = "0.0.0.0:${toString port}";
+    address = "${networking.localIp}:${toString port}";
     storageBackend = "raft";
     storagePath = "/var/lib/vault-raft";
     storageConfig = ''
@@ -21,8 +22,14 @@ in
     extraConfig = ''
       ui = true
       disable_mlock = true
-      api_addr = "http://0.0.0.0:${toString port}"
-      cluster_addr = "http://0.0.0.0:${toString cluster_port}"
+      api_addr = "http://${networking.localIp}:${toString port}"
+      cluster_addr = "http://${networking.localIp}:${toString cluster_port}"
     '';
+  };
+
+  vault-secrets = {
+    vaultPrefix = "${networking.hostName}_secrets";
+    vaultAddress = "http://${networking.localIp}:8200";
+    approlePrefix = networking.hostName;
   };
 }

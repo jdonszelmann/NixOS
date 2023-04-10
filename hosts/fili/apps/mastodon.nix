@@ -1,22 +1,43 @@
 { util, lib, config, pkgs, ... }:
 let
   vs = config.vault-secrets.secrets;
-  server_name = "donsz.nl";
+  server_name = "jdonszelmann.nl";
   domain = "mastodon.${server_name}";
   port = util.randomPort domain;
   database = util.database {
     name = "mastodon";
     type = "postgres";
   };
-  reverse-proxy = util.reverse-proxy {
-    from = domain;
-    to = port;
-  };
+  networking = import ../networking.nix;
 in
 lib.mkMerge [
   database.create
   {
     vault-secrets.secrets.mastodon = { };
+
+    # from https://github.com/NixOS/nixpkgs/blob/619ca2064f709582ef4710be2c18433241adfdd0/nixos/modules/services/web-apps/mastodon.nix#L756
+    # (they make some assumptions about the system that don't hold for me)
+    services.nginx = {
+      virtualHosts.${domain} = {
+        root = "${config.services.mastodon.package}/public";
+        locations."/system/".alias = "/var/lib/mastodon/public-system/";
+        forceSSL = lib.mkDefault true;
+        enableACME = lib.mkDefault true;
+
+        locations."/" = {
+          tryFiles = "$uri @proxy";
+        };
+
+        locations."@proxy" = {
+          proxyPass = "http://127.0.0.1:${toString(port)}";
+          proxyWebsockets = true;
+        };
+        locations."/api/v1/streaming/" = {
+          proxyPass = "http://127.0.0.1:${toString(port + 1)}/";
+          proxyWebsockets = true;
+        };
+      };
+    };
 
     services.elasticsearch = {
       enable = true;
@@ -32,7 +53,7 @@ lib.mkMerge [
       enableUnixSocket = false;
       localDomain = server_name;
       # todo: make a variable for this somewhere
-      trustedProxy = "192.168.0.59";
+      trustedProxy = networking.localIp;
 
       configureNginx = false;
 

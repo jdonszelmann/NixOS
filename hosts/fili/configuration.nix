@@ -1,6 +1,6 @@
 { inputs, config, pkgs, ... }:
 let
-  app = import ./container.nix;
+  networking = import ./networking.nix;
 in
 {
   imports = [
@@ -43,12 +43,7 @@ in
 
   # use systemd-boot as bootloader
   boot.loader.systemd-boot.enable = true;
-  networking.hostName = "fili";
+  networking.hostName = networking.hostName;
   system.stateVersion = "22.11";
 
-  vault-secrets = {
-    vaultPrefix = "${config.networking.hostName}_secrets";
-    vaultAddress = "http://192.168.0.59:8200";
-    approlePrefix = config.networking.hostName;
-  };
 }
