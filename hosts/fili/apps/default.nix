@@ -9,6 +9,9 @@
     ./mastodon.nix
     ./mapf.nix
     ./docker-registry.nix
+    ./harmonica.nix
+    ./short.nix
+    ./research-project.nix
   ];
 
   # make nix containers work
