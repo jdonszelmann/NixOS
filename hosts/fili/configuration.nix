@@ -14,6 +14,7 @@ in
     pkgs.vault
     direnv
     nix-direnv
+    pkgs.mastodon
   ];
 
   nix.settings = {
