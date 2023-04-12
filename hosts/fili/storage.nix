@@ -10,7 +10,17 @@ in
     fsType = "nfs";
     options = [
       "nfsvers=3"
+      "fsc"
     ];
+  };
+
+  services.cachefilesd = {
+    enable = true;
+    extraConfig = "
+brun 20%
+bcull 10%
+bstop 5%
+    ";
   };
 
   # don't allow execute permissions for "other" people

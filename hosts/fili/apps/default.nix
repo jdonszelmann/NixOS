@@ -5,7 +5,7 @@
     ./nginx.nix
     ./md.nix
     ./matrix.nix
-    ./minio.nix
+    ./garage.nix
     ./mastodon.nix
     ./mapf.nix
     ./docker-registry.nix

@@ -1,7 +1,7 @@
 { nixpkgs, ... }: with builtins; with { lib = (nixpkgs.lib); }; let in
 { name, ... }@args: assert isString name;
 let
-  createPostgresDb = { username, password, name, port, host }: {
+  createPostgresDb = { username, password, name, port, host, ... }: {
     ensureUsers = [{
       name = username;
       ensurePermissions = {
@@ -10,7 +10,7 @@ let
     }];
     ensureDatabases = [ name ];
   };
-  createMysqlDb = { username, password, name, port, host }: {
+  createMysqlDb = { username, password, name, port, host, ... }: {
     ensureUsers = [{
       name = username;
       ensurePermissions = {
@@ -27,10 +27,13 @@ let
 
   # creates a database configuration to be used by the create<___>Db functions above,
   # or to know what to put in the env for getDbOptions
-  createDbConfig = { name, ... }@args: {
+  createDbConfig = { name, ... }@args: rec {
     # these can be configured using database.<field>, but default to the name of the app
     username = args.username or name;
-    name = name;
+    userName = username;
+
+    name = args.name;
+    dbName = name;
 
     # no password is set up
     password = "";
@@ -38,6 +41,8 @@ let
     # these are always the same on the system
     port = if (args.type or "mysql" == "postgres") then 5432 else 3306;
     host = args.host or "localhost";
+    hostName = host;
+    hostname = host;
   };
 
   # specifics of createDbEnv.
@@ -57,6 +62,7 @@ in
   config //
   {
     inherit env;
+    type = dbType;
     create = {
       # if we need to make a postgres database? do so. Mutually exclusive with mysql
       services.postgresql = lib.mkIf (dbType == "postgres") (createPostgresDb config);
