@@ -5,6 +5,8 @@
     ./jonathan.nix
     ./laura.nix
     ./victor.nix
+    ./jonathan_brouwer.nix
+    ./julia.nix
   ];
 
   # Setup ZSH to use grml config

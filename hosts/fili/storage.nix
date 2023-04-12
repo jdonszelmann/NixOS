@@ -28,7 +28,7 @@ bstop 5%
   # to effectively disallow people outside the storage group
   # to access /storage 
   systemd.tmpfiles.rules = [
-    "d ${directory} 0770 root ${config.users.groups.storage.name}"
+    "d ${directory} 0777 root ${config.users.groups.storage.name}"
   ];
 
 
@@ -36,4 +36,8 @@ bstop 5%
     name = "storage";
     members = [ config.users.users.jonathan.name ];
   };
+
+  networking.firewall.allowedTCPPorts = [
+    2049
+  ];
 }

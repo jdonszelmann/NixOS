@@ -77,6 +77,10 @@
     };
   };
 
+  networking.firewall.allowedTCPPorts = [
+    22
+  ];
+
   programs.neovim = {
     enable = true;
     # package = pkgs.neovim-unwrapped;

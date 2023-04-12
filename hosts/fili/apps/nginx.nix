@@ -15,7 +15,6 @@
   networking.firewall.allowedTCPPorts = [
     80
     443
-    2049 # nfs
   ];
 
   security.acme.defaults.email = "jonabent@gmail.com";

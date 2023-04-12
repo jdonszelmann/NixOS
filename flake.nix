@@ -17,9 +17,13 @@
       system = "x86_64-linux";
       pkgs = import nixpkgs {
         inherit system;
-        overlays = [ vault-secrets.overlay ];
+        overlays = [
+          (import ./pkgs)
+          vault-secrets.overlay
+        ];
       };
       util = import ./util/default.nix inputs;
+      # modules = import ./modules/default.nix inputs;
 
       apply-local = pkgs.writeShellScriptBin "apply-local" ''
         "${
@@ -53,7 +57,6 @@
         fili = {
           deployment = {
             targetHost = "donsz.nl";
-            targetPort = 1234;
             targetUser = "system";
             tags = [ "fili" ];
             allowLocalDeployment = true;
