@@ -32,7 +32,7 @@ lib.mkMerge [
       #   redisUrl = "localhost:${toString redisPort}";
       #   enableRedisCache = true;
 
-      storagePath = "/storage/docker-registry";
+      storagePath = "${config.fileSystems.nas.mountPoint}/docker-registry";
     };
   }
 ]

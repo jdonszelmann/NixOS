@@ -17,6 +17,6 @@
     ];
 
     # Make me admin
-    extraGroups = [ "systemd-journal" "wheel" "networkmanager" "libvirtd" "dialout" ];
+    extraGroups = [ "systemd-journal" "wheel" "networkmanager" "libvirtd" "dialout" "storage" ];
   };
 }

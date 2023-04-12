@@ -86,7 +86,6 @@ lib.mkMerge [
       extraConfig = {
         BIND = "0.0.0.0";
         SINGLE_USER_MODE = "true";
-        EMAIL_DOMAIN_ALLOWLIST = "xirion.net";
         DEFAULT_LOCALE = "en";
 
         WEB_DOMAIN = domain;
@@ -102,7 +101,7 @@ lib.mkMerge [
         S3_ENABLED = "true";
         S3_BUCKET = "mastodon";
         S3_PROTOCOL = "https";
-        S3_HOSTNAME = "s3.dons.nl";
+        S3_HOSTNAME = "s3.donsz.nl";
         S3_ENDPOINT = "https://s3.donsz.nl";
 
         AWS_ACCESS_KEY_ID = "${vs.mastodon}/s3-access";

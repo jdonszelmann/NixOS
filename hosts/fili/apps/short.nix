@@ -12,6 +12,6 @@ lib.mkMerge [
       DB_LOCATION = "/store/store.db";
       BASE_URL = domain;
     };
-    volumes = [ "/storage/short:/store" ];
+    volumes = [ "${config.fileSystems.nas.mountPoint}/short:/store" ];
   })
 ]

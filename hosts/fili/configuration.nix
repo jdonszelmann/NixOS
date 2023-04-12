@@ -5,6 +5,7 @@ in
 {
   imports = [
     ./hardware-configuration.nix
+    ./storage.nix
     ../common.nix
     ./apps
   ];
@@ -15,6 +16,7 @@ in
     direnv
     nix-direnv
     pkgs.mastodon
+    pkgs.toot
   ];
 
   nix.settings = {

@@ -26,7 +26,7 @@ lib.mkMerge [
       listenAddress = ":${toString port}";
       consoleAddress = ":${toString console-port}";
       dataDir = [
-        "/storage/minio"
+        "${config.fileSystems.nas.mountPoint}/minio"
       ];
     };
   }
