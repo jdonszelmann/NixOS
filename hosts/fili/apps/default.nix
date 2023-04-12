@@ -13,5 +13,6 @@
     ./harmonica.nix
     ./short.nix
     ./research-project.nix
+    ./mc.nix
   ];
 }
