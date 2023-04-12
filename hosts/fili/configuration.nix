@@ -17,6 +17,7 @@ in
     nix-direnv
     pkgs.mastodon
     pkgs.toot
+    pkgs.rcon
   ];
 
   nix.settings = {
