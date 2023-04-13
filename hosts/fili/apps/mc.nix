@@ -31,7 +31,7 @@ lib.mkMerge [
         motd = "Minecraft server!";
         white-list = true;
         enable-rcon = true;
-        "rcon.password" = "hunter2";
+        "rcon.password" = "not-important";
         "rcon.port" = toString rcon-port;
       };
 
