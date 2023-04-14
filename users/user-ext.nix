@@ -8,10 +8,10 @@ let
           type = with types; submodule {
             options = {
               username = mkOption {
-                type = string;
+                type = str;
               };
               uuid = mkOption {
-                type = string;
+                type = str;
               };
             };
           };

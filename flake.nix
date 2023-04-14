@@ -8,13 +8,12 @@
     colmena.url = "github:zhaofengli/colmena";
 
     home-manager.url = "github:nix-community/home-manager";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     vault-secrets.url = "github:serokell/vault-secrets";
     # nixvim.url = "github:pta2002/nixvim";
   };
 
-  outputs = { self, nixpkgs, colmena, vault-secrets, ... }@inputs:
+  outputs = { self, nixpkgs, colmena, vault-secrets, home-manager, ... }@inputs:
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs {
@@ -64,7 +63,10 @@
             allowLocalDeployment = true;
           };
 
-          imports = [ ./hosts/fili/configuration.nix ];
+          imports = [
+            ./hosts/fili/configuration.nix
+            home-manager.nixosModules.home-manager
+          ];
         };
       };
 
