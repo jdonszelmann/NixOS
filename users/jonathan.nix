@@ -18,5 +18,10 @@
 
     # Make me admin
     extraGroups = [ "systemd-journal" "wheel" "networkmanager" "libvirtd" "dialout" "storage" ];
+
+    minecraft = {
+      username = "jonay2000";
+      uuid = "ae528e39-5a10-40f7-84e9-9d15ddaf7c7d";
+    };
   };
 }

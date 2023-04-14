@@ -6,8 +6,10 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     colmena.url = "github:zhaofengli/colmena";
+
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+
     vault-secrets.url = "github:serokell/vault-secrets";
     # nixvim.url = "github:pta2002/nixvim";
   };

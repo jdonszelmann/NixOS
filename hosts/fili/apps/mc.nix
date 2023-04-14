@@ -8,6 +8,8 @@ let
   # TODO: home-manager!
   directory = "/minecraft";
   world = "${directory}/active-world";
+
+  createWhitelist = users: with builtins; listToAttrs (map (user: { name = user.minecraft.username; value = user.minecraft.uuid; }) users);
 in
 lib.mkMerge [
   {
@@ -17,11 +19,11 @@ lib.mkMerge [
 
       package = pkgs.papermc;
 
-      whitelist = {
-        "jonay2000" = "ae528e39-5a10-40f7-84e9-9d15ddaf7c7d"; # Jonathan Dönszelmann
-        "Bammerbom" = "27d51a02-1cec-49fa-8afa-4a6aff0e5b0a"; # Jonathan Brouwer
-        "Vlamonster" = "99a4315a-24d8-4f82-b9ab-65097957774c"; # Julia
-      };
+      whitelist = with config.users.users; createWhitelist [
+        jonathan-brouwer
+        jonathan
+        julia
+      ];
 
       serverProperties = {
         server-port = port;
@@ -58,10 +60,10 @@ lib.mkMerge [
     # Who is allowed to access the minecraft directories?
     users.groups.minecraft = {
       name = "minecraft";
-      members = [
-        config.users.users.jonathan.name
-        config.users.users.julia.name
-        config.users.users.jonathan-brouwer.name
+      members = with config.users.users; [
+        jonathan.name
+        julia.name
+        jonathan-brouwer.name
       ];
     };
   }

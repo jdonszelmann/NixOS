@@ -1,6 +1,7 @@
 { config, pkgs, lib, inputs, ... }:
 {
   imports = [
+    ./user-ext.nix
     ./system.nix
     ./jonathan.nix
     ./laura.nix

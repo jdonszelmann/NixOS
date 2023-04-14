@@ -8,5 +8,10 @@
     ];
 
     extraGroups = [ ];
+
+    minecraft = {
+      username = "Vlamonster";
+      uuid = "99a4315a-24d8-4f82-b9ab-65097957774c";
+    };
   };
 }
