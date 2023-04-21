@@ -1,0 +1,3 @@
+[submodule "flakes/matrix-registration"]
+	path = flakes/matrix-registration
+	url = https://github.com/jonay2000/matrix-registration

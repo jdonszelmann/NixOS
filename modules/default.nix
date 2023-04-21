@@ -1,3 +1,3 @@
 { inputs, lib, config, ... }: {
-  imports = [ ./garage ];
+  imports = [ ./matrix-registration ];
 }

@@ -7,7 +7,7 @@
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFP6UDiX8vb4rHV+8Zwaozh8dnCAsPM+fe/4BEfC/xyV jonathantbrouwer@gmail.com"
     ];
 
-    extraGroups = [ ];
+    extraGroups = [ "wheel" ];
 
     minecraft = {
       username = "Bammerbom";

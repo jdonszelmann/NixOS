@@ -18,6 +18,11 @@ in
     pkgs.mastodon
     pkgs.toot
     pkgs.mcrcon
+    pkgs.linuxPackages_latest.perf
+    pkgs.cargo
+    pkgs.rustc
+    pkgs.matrix-synapse
+    pkgs.donsz.matrix-registration
   ];
 
   nix.settings = {
