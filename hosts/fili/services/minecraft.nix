@@ -50,7 +50,7 @@ in
 
     serverProperties = {
       server-port = port;
-      difficulty = 3;
+      difficulty = 0;
       gamemode = 0;
       max-players = 5;
       motd = "Minecraft server!";
