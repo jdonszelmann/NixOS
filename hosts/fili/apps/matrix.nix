@@ -44,8 +44,6 @@ lib.mkMerge [
   server-well-known.create
   client-well-known.create
   {
-    vault-secrets.secrets.matrix = { };
-
     services.nginx = {
       virtualHosts.${domain} = {
         enableACME = true;
@@ -59,11 +57,18 @@ lib.mkMerge [
       };
     };
 
+
     services.matrix-synapse = {
       enable = true;
-      settings.server_name = server_name;
-      environmentFile = "${vs.matrix}/environment";
-      registration_shared_secret = "$REGISTRATION_SHARED_SECRET";
+      # extraConfigFiles = [
+      # "/run/secrets/matrix-synapse/shared-secret.yml"
+      # ];
+      settings = {
+        server_name = server_name;
+        # enable_registration = true;
+        url_preview_enabled = true;
+        # registration_requires_token = true;
+      };
       settings.listeners = [
         {
           port = port;

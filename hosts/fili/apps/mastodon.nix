@@ -13,11 +13,16 @@ in
 lib.mkMerge [
   database.create
   {
-    vault-secrets.secrets.mastodon = { };
+    vault-secrets.secrets.mastodon = {
+      services = [ "mastodon-init-dirs" "mastodon" "mastodon-media-prune" ];
+      inherit (config.services.mastodon) user group;
+    };
 
     # from https://github.com/NixOS/nixpkgs/blob/619ca2064f709582ef4710be2c18433241adfdd0/nixos/modules/services/web-apps/mastodon.nix#L756
     # (they make some assumptions about the system that don't hold for me)
     services.nginx = {
+      recommendedProxySettings = true;
+
       virtualHosts.${domain} = {
         root = "${config.services.mastodon.package}/public";
         locations."/system/".alias = "/var/lib/mastodon/public-system/";
@@ -108,6 +113,8 @@ lib.mkMerge [
         AWS_SECRET_ACCESS_KEY = "${vs.mastodon}/s3-secret";
 
         DEEPL_PLAN = "free";
+
+        ES_ENABLED = "true";
       };
     };
 

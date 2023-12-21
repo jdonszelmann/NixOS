@@ -31,7 +31,6 @@ bstop 5%
     "d ${directory} 0777 root ${config.users.groups.storage.name}"
   ];
 
-
   users.groups.storage = {
     name = "storage";
     members = [ config.users.users.jonathan.name ];

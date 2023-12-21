@@ -1,49 +1,49 @@
-{ inputs, config, pkgs, ... }:
-let
-  networking = import ./networking.nix;
-in
-{
+{ inputs, config, pkgs, ... }: {
   imports = [
     ./hardware-configuration.nix
+    ../default-machine-config.nix
     ./storage.nix
-    ../common.nix
-    ./apps
+    ./services
   ];
+
+
+
+  networking =
+    {
+      hostName = "fili";
+      nftables.enable = true;
+      firewall = {
+        enable = true;
+        allowedTCPPorts = [
+          80
+          443
+        ];
+      };
+    };
+
+  nix.settings = {
+    # users that can interact with nix
+    trusted-users = [
+      "jonathan"
+      "root"
+    ];
+  };
 
   environment.systemPackages = with pkgs; [
     nfs-utils
-    pkgs.vault
-    direnv
-    nix-direnv
-    pkgs.mastodon
-    pkgs.toot
-    pkgs.mcrcon
-    pkgs.linuxPackages_latest.perf
-    pkgs.cargo
-    pkgs.rustc
-    pkgs.matrix-synapse
-    pkgs.donsz.matrix-registration
-  ];
+    # pkgs.vault
 
-  nix.settings = {
-    keep-outputs = true;
-    keep-derivations = true;
-  };
-  environment.pathsToLink = [
-    "/share/nix-direnv"
+    # pkgs.mastodon
+    # pkgs.toot
+    # pkgs.mcrcon
+    # pkgs.linuxPackages_latest.perf
+    # pkgs.cargo
+    # pkgs.rustc
+    # pkgs.matrix-synapse
+    # pkgs.donsz.matrix-registration
+    # pkgs.pgloader
+    # pkgs.hedgedoc
   ];
-  # if you also want support for flakes
-  nixpkgs.overlays = [
-    (self: super: { nix-direnv = super.nix-direnv.override { enableFlakes = true; }; })
-  ];
-
-  services.nginx = {
-    enable = true;
-    recommendedProxySettings = true;
-    recommendedTlsSettings = true;
-    recommendedOptimisation = true;
-  };
-
 
   boot.initrd = {
     supportedFilesystems = [ "nfs" ];
@@ -52,8 +52,6 @@ in
 
   # use systemd-boot as bootloader
   boot.loader.systemd-boot.enable = true;
-  networking.hostName = networking.hostName;
-  system.stateVersion = "22.11";
 
   # services.fail2ban = {
   #   enable = true;

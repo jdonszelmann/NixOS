@@ -14,5 +14,9 @@
     ./short.nix
     ./research-project.nix
     ./mc.nix
+    ./ifsc-proxy.nix
+    ./recipes.nix
+    ./vpn.nix
+    ./syncthing.nix
   ];
 }

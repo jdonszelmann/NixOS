@@ -1,6 +1,6 @@
 { inputs, config, pkgs, lib, ... }: {
   imports = [
-    ../users
+    # ../users
     inputs.vault-secrets.nixosModules.vault-secrets
   ];
 

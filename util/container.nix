@@ -29,6 +29,7 @@ in
             environment = env;
             cmd = lib.mkIf (args ? cmd) args.cmd;
             volumes = volumes;
+            extraOptions = [ "--pull=always" ];
           };
         };
       }
