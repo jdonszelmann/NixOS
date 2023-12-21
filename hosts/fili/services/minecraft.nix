@@ -52,7 +52,7 @@ in
       server-port = port;
       difficulty = 0;
       gamemode = 0;
-      max-players = 5;
+      max-players = 8;
       motd = "Minecraft server!";
       white-list = (builtins.length whitelist) != 0;
       enable-rcon = true;
