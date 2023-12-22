@@ -12,11 +12,15 @@
     ifsc-proxy.url = "github:jdonszelmann/ifsc-proxy";
     vault-unseal.url = "git+https://git.0x76.dev/v/vault-unseal.git";
     nix-minecraft.url = "github:Infinidoge/nix-minecraft";
+
+    microvm.url = "github:astro/microvm.nix";
+    microvm.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { nixpkgs, vault-secrets, self, ... }@inputs:
+  outputs = { nixpkgs, vault-secrets, self, microvm, ... }@inputs:
     let
       system = "x86_64-linux";
+      pkgs = nixpkgs.legacyPackages.${system};
       # pkgs =
       # util = import ./util/default.nix inputs;
       # modules = import ./modules/default.nix inputs;
@@ -33,10 +37,10 @@
       #     }"/bin/colmena apply --on "@fili"
       #   '';
 
-      #   fast-repl = pkgs.writeShellScriptBin "fast-repl" ''
-      #     source /etc/set-environment
-      #     nix repl --file "${./.}/repl.nix" $@
-      #   '';
+        fast-repl = pkgs.writeShellScriptBin "fast-repl" ''
+          source /etc/set-environment
+          nix repl --file "${./.}/repl.nix" $@
+        '';
     in
     {
       # necessary for vault to work
@@ -70,8 +74,8 @@
           };
 
           imports = [
+            microvm.nixosModules.host
             inputs.nix-minecraft.nixosModules.minecraft-servers
-
             ./hosts/fili/configuration.nix
             # home-manager.nixosModules.home-manager
           ];
@@ -90,18 +94,19 @@
       #     '';
       # };
 
-      # devShells.${system}.default = pkgs.mkShell {
-      #   VAULT_ADDR = "http://192.168.0.59:8200/";
-      #   buildInputs = with pkgs; [
-      #     apply-local
-      #     apply-remote
-      #     colmena.packages.${system}.colmena
-      #     cachix
-      #     vault
-      #     (vault-push-approle-envs self { })
-      #     (vault-push-approles self { })
-      #     fast-repl
-      #   ];
-      # };
+      devShells.${system}.default = pkgs.mkShell {
+        # VAULT_ADDR = "http://192.168.0.59:8200/";
+        buildInputs = with pkgs; [
+          # apply-local
+          # apply-remote
+          # colmena.packages.${system}.colmena
+          # cachix
+          # vault
+          # (vault-push-approle-envs self { })
+          # (vault-push-approles self { })
+          nixUnstable
+          fast-repl
+        ];
+      };
     };
 }

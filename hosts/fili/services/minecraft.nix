@@ -45,7 +45,9 @@ in
     declarative = true;
 
     # package = pkgs.papermc;
+    # package = pkgs.legacyFabricServers.legacy-fabric-1_12_2;
     package = pkgs.paperServers.paper-1_12_2;
+
     whitelist = createWhitelist whitelist;
 
     serverProperties = {
