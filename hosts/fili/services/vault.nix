@@ -1,8 +1,14 @@
 { util, pkgs, inputs, ... }:
 let
+  domain = "vault.donsz.nl";
   port = 8200;
   cluster_port = 8201;
   node_id = "fili";
+  # TODO: set somewhere else
+  localIp = "192.168.0.59";
+  # TODO: set somewhere else
+  hostName = "fili";
+
   key_file = "/var/lib/vault-unseal/keys.json";
 in
 {
@@ -12,7 +18,7 @@ in
     enable = true;
     # bin version includes the UI
     package = pkgs.vault-bin;
-    address = "${networking.localIp}:${toString port}";
+    address = "${localIp}:${toString port}";
     storageBackend = "raft";
     storagePath = "/var/lib/vault-raft";
     storageConfig = ''
@@ -21,15 +27,15 @@ in
     extraConfig = ''
       ui = true
       disable_mlock = true
-      api_addr = "http://${networking.localIp}:${toString port}"
-      cluster_addr = "http://${networking.localIp}:${toString cluster_port}"
+      api_addr = "http://${localIp}:${toString port}"
+      cluster_addr = "http://${localIp}:${toString cluster_port}"
     '';
   };
 
   vault-secrets = {
-    vaultPrefix = "${networking.hostName}_secrets";
-    vaultAddress = "http://${networking.localIp}:8200";
-    approlePrefix = networking.hostName;
+    vaultPrefix = "${hostName}_secrets";
+    vaultAddress = "http://${localIp}:8200";
+    approlePrefix = hostName;
   };
 
   systemd.services.vault-unseal = {
@@ -37,7 +43,7 @@ in
     wantedBy = [ "multi-user.target" ];
     after = [ "vault.service" ];
     environment = {
-      VAULT_ADDR = "http://${networking.localIp}:${toString port}";
+      VAULT_ADDR = "http://${localIp}:${toString port}";
       VAULT_KEY_FILE = key_file;
     };
     serviceConfig = {

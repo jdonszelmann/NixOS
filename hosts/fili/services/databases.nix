@@ -1,6 +1,7 @@
 { config, pkgs, libs, ... }:
 {
-  services.postgresql = {
+  services.postgresql = rec {
+    package = pkgs.postgresql_15;
     enable = true;
     enableTCPIP = true;
     authentication = pkgs.lib.mkOverride 10 ''
@@ -21,12 +22,17 @@
       listen_addresses = "*";
     };
 
-    ensureUsers = [{
-      name = "matrix";
-    }];
-    ensureDatabases = [
-      "matrix"
+    ensureUsers = [
+      {
+        name = "matrix";
+        ensureDBOwnership = true;
+      }
+      {
+        name = "recipes";
+        ensureDBOwnership = true;
+      }
     ];
+    ensureDatabases = with builtins; map (i: i.name) ensureUsers;
   };
 
   services.mysql = {

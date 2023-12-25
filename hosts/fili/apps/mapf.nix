@@ -14,12 +14,13 @@ let
         docker = true;
       };
     };
-in
-lib.mkMerge [
-  database.create
-  {
-    vault-secrets.secrets.mapf-prod = { };
-  }
+       (import (inputs.colmena + "/src/nix/hive/eval.nix") {
+          rawFlake = self;
+          colmenaOptions =
+            import (inputs.colmena + "/src/nix/hive/options.nix");
+          colmenaModules =
+            import (inputs.colmena + "/src/nix/hive/modules.nix");
+        }).nodes;
   (util.standardContainer {
     domain = "mapf.nl";
     name = "mapf";

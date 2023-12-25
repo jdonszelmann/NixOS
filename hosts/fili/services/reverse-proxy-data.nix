@@ -1,3 +1,21 @@
+let
+  proxy-port = domain: port: {
+    inherit domain;
+    port = port;
+    nginx = {
+      ${domain} = {
+        enableACME = true;
+        forceSSL = true;
+        locations = {
+          "/" = {
+            proxyPass = "http://localhost:${toString port}";
+            proxyWebsockets = true;
+          };
+        };
+      };
+    };
+  };
+in
 {
   matrix = rec {
     server_name = "jdonszelmann.nl";
@@ -16,21 +34,25 @@
         enableACME = true;
         forceSSL = true;
         locations."/.well-known/matrix/client".extraConfig = ''
-              add_header Content-Type application/json;
-              add_header Access-Control-Allow-Origin *;
-              return 200 '${builtins.toJSON {
+                  add_header Content-Type application/json;
+                  add_header Access-Control-Allow-Origin *;
+                  return 200 '${builtins.toJSON {
             "m.homeserver".base_url = "https://${domain}";
             "m.identity_server" = { };
           }}';
         '';
         locations."/.well-known/matrix/server".extraConfig = ''
-          add_header Content-Type application/json;
-          add_header Access-Control-Allow-Origin *;
-          return 200 '${builtins.toJSON {
+                add_header Content-Type application/json;
+                add_header Access-Control-Allow-Origin *;
+                return 200 '${builtins.toJSON {
             "m.server" = "${domain}:443";
           }}';
         '';
       };
     };
   };
+
+  ifsc-proxy = proxy-port "ifsc-proxy.donsz.nl" 11002;
+  recipes = proxy-port "recipes.donsz.nl" 11003;
 }
+

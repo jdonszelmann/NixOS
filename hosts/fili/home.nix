@@ -1,19 +1,21 @@
 { config, pkgs, lib, ... }:
+let
+  # symlink = config.lib.file.mkOutOfStoreSymlink;
+  admin-dir = "admin";
+in
+
 {
-  #   hm.users.jonathan = { };
-
-  #   programs.home-manager.enable = true;
-  #   home.username = "victor";
-  #   home.homeDirectory = "/home/victor";
-  #   home.stateVersion = "22.05";
-
-  #   programs.direnv = {
-  #     enable = true;
-  #     nix-direnv = { enable = true; };
+  # home-manager.users.jonathan = {
+  #   programs = {
+  #     home-manager.enable = true;
   #   };
 
-  #   programs.zsh = {
-  #     enable = true;
-  #     sessionVariables = { DIRENV_LOG_FORMAT = ""; };
+  #   home = {
+  #     file = {
+  #       "${admin-dir}/secrets".source = symlink "/run/secrets";
+  #     };
+
+  #     stateVersion = config.system.stateVersion;
   #   };
+  # };
 }

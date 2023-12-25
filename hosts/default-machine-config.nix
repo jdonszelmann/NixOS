@@ -1,4 +1,4 @@
-{ lib, pkgs, ... }: {
+{ lib, pkgs, inputs, ... }: {
   imports = [
     ./users.nix
   ];
@@ -131,4 +131,10 @@
     nixos.enable = lib.mkForce false;
   };
 
+  home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    verbose = true;
+    extraSpecialArgs = { inherit inputs; };
+  };
 }

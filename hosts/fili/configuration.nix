@@ -1,12 +1,13 @@
 { inputs, config, pkgs, ... }: {
   imports = [
+    inputs.vault-secrets.nixosModules.vault-secrets
+    ../../modules
     ./hardware-configuration.nix
     ../default-machine-config.nix
+    ./home.nix
     ./storage.nix
     ./services
   ];
-
-
 
   networking =
     {

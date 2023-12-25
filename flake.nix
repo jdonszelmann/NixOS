@@ -6,7 +6,9 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     colmena.url = "github:zhaofengli/colmena";
+
     home-manager.url = "github:nix-community/home-manager";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     vault-secrets.url = "github:serokell/vault-secrets";
     ifsc-proxy.url = "github:jdonszelmann/ifsc-proxy";
@@ -15,9 +17,11 @@
 
     microvm.url = "github:astro/microvm.nix";
     microvm.inputs.nixpkgs.follows = "nixpkgs";
+
+    comma.url = "github:nix-community/comma";
   };
 
-  outputs = { nixpkgs, vault-secrets, self, microvm, ... }@inputs:
+  outputs = { nixpkgs, vault-secrets, self, microvm, home-manager, colmena, ... }@inputs:
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
@@ -37,10 +41,10 @@
       #     }"/bin/colmena apply --on "@fili"
       #   '';
 
-        fast-repl = pkgs.writeShellScriptBin "fast-repl" ''
-          source /etc/set-environment
-          nix repl --file "${./.}/repl.nix" $@
-        '';
+      fast-repl = pkgs.writeShellScriptBin "fast-repl" ''
+        source /etc/set-environment
+        nix repl --file "${./.}/repl.nix" $@
+      '';
     in
     {
       # necessary for vault to work
@@ -63,6 +67,7 @@
             ];
             inherit system;
           };
+          specialArgs = { inherit inputs; };
         };
 
         fili = {
@@ -75,6 +80,7 @@
 
           imports = [
             microvm.nixosModules.host
+            home-manager.nixosModules.default
             inputs.nix-minecraft.nixosModules.minecraft-servers
             ./hosts/fili/configuration.nix
             # home-manager.nixosModules.home-manager
@@ -99,7 +105,7 @@
         buildInputs = with pkgs; [
           # apply-local
           # apply-remote
-          # colmena.packages.${system}.colmena
+          colmena.packages.${system}.colmena
           # cachix
           # vault
           # (vault-push-approle-envs self { })
