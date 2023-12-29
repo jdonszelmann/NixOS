@@ -1,6 +1,8 @@
 { lib, pkgs, inputs, ... }: {
   imports = [
     ./users.nix
+    ../modules
+    # inputs.home-manager.nixosModules.home-manager
   ];
 
   system.stateVersion = "24.05";

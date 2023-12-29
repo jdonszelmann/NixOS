@@ -1,13 +1,16 @@
-{ inputs, config, pkgs, ... }: {
+{ config, pkgs, inputs, ... }: {
   imports = [
     inputs.vault-secrets.nixosModules.vault-secrets
-    ../../modules
+    inputs.microvm.nixosModules.host
+    inputs.nix-minecraft.nixosModules.minecraft-servers
+
     ./hardware-configuration.nix
     ../default-machine-config.nix
     ./home.nix
     ./storage.nix
+    ./vms
+
     ./services
-    ./vms.nix
   ];
 
   services.qemuGuest.enable = true;

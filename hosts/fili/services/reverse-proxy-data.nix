@@ -1,4 +1,5 @@
 let
+  host-data = import ../vms/host-data.nix;
   proxy-port = domain: port: {
     inherit domain;
     port = port;
@@ -9,6 +10,22 @@ let
         locations = {
           "/" = {
             proxyPass = "http://localhost:${toString port}";
+            proxyWebsockets = true;
+          };
+        };
+      };
+    };
+  };
+  proxy-vm = domain: hostname: port: {
+    inherit domain;
+    port = port;
+    nginx = {
+      ${domain} = {
+        enableACME = true;
+        forceSSL = true;
+        locations = {
+          "/" = {
+            proxyPass = "http://${host-data.${hostname}.ip}:${toString port}";
             proxyWebsockets = true;
           };
         };
@@ -51,8 +68,8 @@ in
       };
     };
   };
+  recipes = proxy-port "recipes.donsz.nl" 11002;
 
-  ifsc-proxy = proxy-port "ifsc-proxy.donsz.nl" 11002;
-  recipes = proxy-port "recipes.donsz.nl" 11003;
+  ifsc-proxy = proxy-vm "ifsc-proxy.donsz.nl" "ifsc-proxy" 8000;
 }
 

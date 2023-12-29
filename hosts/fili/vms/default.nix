@@ -1,10 +1,24 @@
-{ ... }: {
-
+{ config, ... }:
+let
+  host-data = import ./host-data.nix;
+  vm-hosts = with builtins; attrNames host-data;
+in
+{
   networking.useNetworkd = true;
   systemd.services."systemd-networkd".environment.SYSTEMD_LOG_LEVEL = "debug";
   boot.kernel.sysctl."net.ipv4.ip_forward" = 1;
 
-  # sudo ip route add 10.0.0.0/24 via 10.0.0.1 dev vmbridge
+  # make the shared ssh directory on the host for each vm for
+  # various purposes (currently only ssh)
+  systemd.tmpfiles.rules = with builtins;
+    concatLists (
+      map
+        (i: [
+          "d /var/lib/microvms/${i}/storage     0755 microvm -"
+          "d /var/lib/microvms/${i}/storage/etc 0755 microvm -"
+        ])
+        vm-hosts
+    );
 
   systemd.network.enable = true;
 
@@ -58,13 +72,6 @@
         IPMasquerade = true;
         IPForward = true;
       };
-      # routes = [{
-      #   routeConfig = {
-      #     Gateway = "10.0.0.1";
-      #     Destination = "10.0.0.0/24";
-      #     # GatewayOnLink = "yes";
-      #   };
-      # }];
       linkConfig.RequiredForOnline = "routable";
     };
   };

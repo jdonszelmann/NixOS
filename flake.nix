@@ -5,7 +5,8 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    colmena.url = "github:zhaofengli/colmena";
+
+    deploy-rs.url = "github:serokell/deploy-rs";
 
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -25,10 +26,11 @@
     comma.url = "github:nix-community/comma";
   };
 
-  outputs = { nixpkgs, vault-secrets, self, microvm, home-manager, colmena, ... }@inputs:
+  outputs = { nixpkgs, vault-secrets, self, microvm, home-manager, deploy-rs, ... }@inputs:
     let
       system = "x86_64-linux";
-      pkgs = nixpkgs.legacyPackages.${system};
+      pkgs = import nixpkgs { inherit system; config.allowUnfree = true; };
+      # pkgs = nixpkgs.legacyPackages.${system};
       # pkgs =
       # util = import ./util/default.nix inputs;
       # modules = import ./modules/default.nix inputs;
@@ -52,45 +54,26 @@
     in
     {
       # necessary for vault to work
-      nixosConfigurations =
-        (import (inputs.colmena + "/src/nix/hive/eval.nix") {
-          rawFlake = self;
-          colmenaOptions =
-            import (inputs.colmena + "/src/nix/hive/options.nix");
-          colmenaModules =
-            import (inputs.colmena + "/src/nix/hive/modules.nix");
-        }).nodes;
-
-
-      colmena = {
-        meta = {
-          nixpkgs = import nixpkgs {
-            overlays = [
-              vault-secrets.overlay
-              inputs.nix-minecraft.overlay
-            ];
-            inherit system;
+      nixosConfigurations.fili = nixpkgs.lib.nixosSystem {
+        inherit system;
+        specialArgs =
+          { inherit pkgs inputs; };
+        modules = [
+          ./hosts/fili/configuration.nix
+        ];
+      };
+      deploy.nodes.fili = {
+        hostname = "donsz.nl";
+        fastConnection = true;
+        profiles = {
+          system = {
+            sshUser = "jonathan";
+            path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.fili;
+            user = "root";
           };
-          specialArgs = { inherit inputs; };
-        };
-
-        fili = {
-          deployment = {
-            targetHost = "donsz.nl";
-            targetUser = "jonathan";
-            tags = [ "fili" ];
-            allowLocalDeployment = true;
-          };
-
-          imports = [
-            microvm.nixosModules.host
-            home-manager.nixosModules.home-manager
-            inputs.nix-minecraft.nixosModules.minecraft-servers
-            ./hosts/fili/configuration.nix
-            # home-manager.nixosModules.home-manager
-          ];
         };
       };
+      checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
 
       # packages.${system} = {
       #   inherit apply-local;
@@ -109,8 +92,7 @@
         buildInputs = with pkgs; [
           # apply-local
           # apply-remote
-          colmena.packages.${system}.colmena
-          # cachix
+          deploy-rs.packages.${system}.deploy-rs
           # vault
           # (vault-push-approle-envs self { })
           # (vault-push-approles self { })
