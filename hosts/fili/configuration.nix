@@ -7,12 +7,16 @@
     ./home.nix
     ./storage.nix
     ./services
+    ./vms.nix
   ];
+
+  services.qemuGuest.enable = true;
 
   networking =
     {
       hostName = "fili";
-      nftables.enable = true;
+      # can't use cause of vm config
+      # nftables.enable = true;
       firewall = {
         enable = true;
         allowedTCPPorts = [

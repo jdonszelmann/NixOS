@@ -131,10 +131,10 @@
     nixos.enable = lib.mkForce false;
   };
 
-  home-manager = {
-    useGlobalPkgs = true;
-    useUserPackages = true;
-    verbose = true;
-    extraSpecialArgs = { inherit inputs; };
-  };
+  # home-manager = {
+  #   useGlobalPkgs = true;
+  #   useUserPackages = true;
+  #   verbose = true;
+  #   extraSpecialArgs = { inherit inputs; };
+  # };
 }

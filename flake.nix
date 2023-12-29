@@ -7,16 +7,20 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     colmena.url = "github:zhaofengli/colmena";
 
-    home-manager.url = "github:nix-community/home-manager";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     vault-secrets.url = "github:serokell/vault-secrets";
     ifsc-proxy.url = "github:jdonszelmann/ifsc-proxy";
     vault-unseal.url = "git+https://git.0x76.dev/v/vault-unseal.git";
     nix-minecraft.url = "github:Infinidoge/nix-minecraft";
 
-    microvm.url = "github:astro/microvm.nix";
-    microvm.inputs.nixpkgs.follows = "nixpkgs";
+    microvm = {
+      url = "github:astro/microvm.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     comma.url = "github:nix-community/comma";
   };
@@ -80,7 +84,7 @@
 
           imports = [
             microvm.nixosModules.host
-            home-manager.nixosModules.default
+            home-manager.nixosModules.home-manager
             inputs.nix-minecraft.nixosModules.minecraft-servers
             ./hosts/fili/configuration.nix
             # home-manager.nixosModules.home-manager
