@@ -31,8 +31,8 @@ jobs:
         key: ${{ secrets.SSH_DEPLOY_KEY }} 
         known_hosts: '${{ secrets.FILI_KNOWN_HOSTS }} '
 
-    # - name: "Install Nix ❄️"
-    #   uses: cachix/install-nix-action@v18
+    - name: "Install Nix ❄️"
+      uses: cachix/install-nix-action@v18
     # - name: "Install Cachix ❄️"
     #   uses: cachix/cachix-action@v12
     #   with:
