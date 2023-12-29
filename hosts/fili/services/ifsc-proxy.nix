@@ -1,6 +1,4 @@
-{ util
-, lib
-, config
+{ config
 , pkgs
 , microvm
 , inputs
