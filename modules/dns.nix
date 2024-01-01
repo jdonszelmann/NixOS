@@ -6,7 +6,7 @@ let
   cfg = config.services.custom.dns;
 
   domains = map ({ domain, ... }: domain) cfg.hosts;
-  hosts = cfg.hosts;
+  inherit (cfg) hosts;
   localData = { domain, ip, ... }: ''"${domain}. A ${ip}"'';
   ptrData = { domain, ip, ... }: ''"${ip} ${domain}"'';
 
@@ -89,8 +89,8 @@ in
 
             local-zone =
               map (localdomain: ''"${localdomain}}." transparent'') domains;
-            local-data = (map localData hosts);
-            local-data-ptr = (map ptrData hosts);
+            local-data = map localData hosts;
+            local-data-ptr = map ptrData hosts;
 
             private-address = [
               "127.0.0.0/8"

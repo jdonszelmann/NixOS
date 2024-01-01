@@ -1,4 +1,4 @@
-{ nixpkgs, ... }@inputs: with builtins; with { lib = (nixpkgs.lib); };
+{ nixpkgs, ... }@inputs: with builtins; with { inherit (nixpkgs) lib; };
 let
   reverse-proxy = import ./reverse-proxy.nix inputs;
   # randomPort isn't actually a random port. Instead it's basically a hash
@@ -39,9 +39,9 @@ let
 in
 {
   database = import ./database.nix inputs;
-  standardContainer = (import ./container.nix inputs).standardContainer;
-  reverse-proxy = reverse-proxy.reverse-proxy;
-  well-known = reverse-proxy.well-known;
+  inherit ((import ./container.nix inputs)) standardContainer;
+  inherit (reverse-proxy) reverse-proxy;
+  inherit (reverse-proxy) well-known;
 
   inherit randomPort;
 }

@@ -6,12 +6,12 @@ in
   services.matrix-synapse = {
     enable = true;
     settings = {
-      server_name = proxies.matrix.server_name;
+      inherit (proxies.matrix) server_name;
       url_preview_enabled = true;
     };
     settings.listeners = [
       {
-        port = proxies.matrix.port;
+        inherit (proxies.matrix) port;
         bind_addresses = [ "::1" ];
         type = "http";
         tls = false;

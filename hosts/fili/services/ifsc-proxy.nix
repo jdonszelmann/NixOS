@@ -16,7 +16,7 @@ in
       system.stateVersion = config.system.stateVersion;
 
       services.ifsc-proxy = {
-        port = proxy.ifsc-proxy.port;
+        inherit (proxy.ifsc-proxy) port;
         enable = true;
       };
       networking.firewall.allowedTCPPorts = [ proxy.ifsc-proxy.port ];

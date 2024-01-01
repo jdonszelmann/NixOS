@@ -2,7 +2,7 @@ let
   host-data = import ../vms/host-data.nix;
   proxy-port = domain: port: {
     inherit domain;
-    port = port;
+    inherit port;
     nginx = {
       ${domain} = {
         enableACME = true;

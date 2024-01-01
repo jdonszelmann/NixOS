@@ -1,4 +1,4 @@
-{ nixpkgs, ... }: with builtins; with { lib = (nixpkgs.lib); };
+{ nixpkgs, ... }: with builtins; with { inherit (nixpkgs) lib; };
 {
   well-known = { domain, name, config, ... }@args: {
     create = {

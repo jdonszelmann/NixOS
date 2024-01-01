@@ -64,14 +64,14 @@ lib.mkMerge [
       # "/run/secrets/matrix-synapse/shared-secret.yml"
       # ];
       settings = {
-        server_name = server_name;
+        inherit server_name;
         # enable_registration = true;
         url_preview_enabled = true;
         # registration_requires_token = true;
       };
       settings.listeners = [
         {
-          port = port;
+          inherit port;
           bind_addresses = [ "::1" ];
           type = "http";
           tls = false;

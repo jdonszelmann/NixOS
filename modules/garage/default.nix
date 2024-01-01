@@ -30,7 +30,7 @@ in
 
 
     logLevel = mkOption {
-      type = types.enum ([ "info" "debug" "trace" ]);
+      type = types.enum [ "info" "debug" "trace" ];
       default = "info";
       example = "debug";
       description = lib.mdDoc "Garage log level, see <https://garagehq.deuxfleurs.fr/documentation/quick-start/#launching-the-garage-server> for examples.";
@@ -55,8 +55,8 @@ in
 
           replication_mode = mkOption {
             default = "none";
-            type = types.enum ([ "none" "1" "2" "3" 1 2 3 ]);
-            apply = v: toString v;
+            type = types.enum [ "none" "1" "2" "3" 1 2 3 ];
+            apply = toString;
             description = lib.mdDoc "Garage replication mode, defaults to none, see: <https://garagehq.deuxfleurs.fr/reference_manual/configuration.html#replication_mode> for reference.";
           };
         };

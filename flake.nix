@@ -24,9 +24,11 @@
     };
 
     comma.url = "github:nix-community/comma";
+
+    statix.url = "github:nerdypepper/statix";
   };
 
-  outputs = { nixpkgs, self, microvm, home-manager, deploy-rs, ... }@inputs:
+  outputs = { nixpkgs, self, microvm, home-manager, deploy-rs, statix, ... }@inputs:
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs {
@@ -68,6 +70,7 @@
       devShells.${system}.default = pkgs.mkShell {
         buildInputs = with pkgs; [
           deploy-rs.packages.${system}.deploy-rs
+          statix.packages.${system}.statix
           nixUnstable
           fast-repl
         ];

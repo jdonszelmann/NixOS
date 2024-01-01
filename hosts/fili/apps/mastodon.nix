@@ -34,7 +34,7 @@ lib.mkMerge [
         };
 
         locations."@proxy" = {
-          proxyPass = "http://127.0.0.1:${toString(port)}";
+          proxyPass = "http://127.0.0.1:${toStringport}";
           proxyWebsockets = true;
         };
         locations."/api/v1/streaming/" = {
@@ -73,9 +73,9 @@ lib.mkMerge [
         createLocally = false;
         user = database.username;
         passwordFile = pkgs.writeText "database-password" database.password;
-        port = database.port;
-        name = database.name;
-        host = database.host;
+        inherit (database) port;
+        inherit (database) name;
+        inherit (database) host;
       };
 
       smtp = {

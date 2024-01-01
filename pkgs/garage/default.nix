@@ -74,7 +74,7 @@ let
       homepage = "https://garagehq.deuxfleurs.fr";
       license = lib.licenses.agpl3Only;
       maintainers = with lib.maintainers; [ nickcao _0x4A6F teutat3s raitobezarius ];
-      knownVulnerabilities = (lib.optional eol "Garage version ${version} is EOL");
+      knownVulnerabilities = lib.optional eol "Garage version ${version} is EOL";
       inherit broken;
     };
   };

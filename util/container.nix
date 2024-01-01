@@ -1,6 +1,6 @@
-{ nixpkgs, ... }@inputs: with builtins; with { lib = (nixpkgs.lib); }; let
-  reverse-proxy = (import ./default.nix inputs).reverse-proxy;
-  randomPort = (import ./default.nix inputs).randomPort;
+{ nixpkgs, ... }@inputs: with builtins; with { inherit (nixpkgs) lib; }; let
+  inherit ((import ./default.nix inputs)) reverse-proxy;
+  inherit ((import ./default.nix inputs)) randomPort;
 in
 {
   standardContainer =
@@ -28,7 +28,7 @@ in
             ports = [ "127.0.0.1:${toString hostPort}:${toString port}" ];
             environment = env;
             cmd = lib.mkIf (args ? cmd) args.cmd;
-            volumes = volumes;
+            inherit volumes;
             extraOptions = [ "--pull=always" ];
           };
         };

@@ -1,5 +1,4 @@
-{ nixpkgs, ... }: with builtins; with { lib = (nixpkgs.lib); }; let in
-{ name, ... }@args: assert isString name;
+{ nixpkgs, ... }: with builtins; with { inherit (nixpkgs) lib; }; { name, ... }@args: assert isString name;
 let
   createPostgresDb = { username, password, name, port, host, ... }: {
     ensureUsers = [{
@@ -32,7 +31,7 @@ let
     username = args.username or name;
     userName = username;
 
-    name = args.name;
+    inherit (args) name;
     dbName = name;
 
     # no password is set up
@@ -58,8 +57,7 @@ let
   config = createDbConfig args;
   env = getDbEnvOptions (args.env or { }) config;
 in
-(
-  config //
+config //
   {
     inherit env;
     type = dbType;
@@ -70,4 +68,3 @@ in
       services.mysql = lib.mkIf (dbType == "mysql" || dbType == "mariadb") (createMysqlDb config);
     };
   }
-)

@@ -1,7 +1,7 @@
 { lib, config, pkgs, inputs, util, ... }:
 let
   root = "${config.fileSystems.nas.mountPoint}/syncthing";
-  devices = config.services.syncthing.devices;
+  inherit (config.services.syncthing) devices;
 
   status-domain = "relay-status.donsz.nl";
   status-port = util.randomPort status-domain;

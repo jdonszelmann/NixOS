@@ -1,4 +1,4 @@
-{ ... }: with builtins;
+_: with builtins;
 let
   proxy = import ./reverse-proxy-data.nix;
   host-data = import ../vms/host-data.nix;

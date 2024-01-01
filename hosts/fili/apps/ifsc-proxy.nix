@@ -11,7 +11,7 @@ lib.mkMerge [
   reverse-proxy.create
   {
     services.ifsc-proxy = {
-      port = port;
+      inherit port;
       enable = true;
     };
   }

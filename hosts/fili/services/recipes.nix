@@ -1,7 +1,7 @@
 { config, pkgs, inputs, ... }:
 let
   proxy = import ./reverse-proxy-data.nix;
-  stateVersion = config.system.stateVersion;
+  inherit (config.system) stateVersion;
 in
 {
   sops.secrets.recipes = {
@@ -18,7 +18,7 @@ in
       networking.firewall.allowedTCPPorts = [ proxy.recipes.port ];
       services.tandoor-recipes = {
         enable = true;
-        port = proxy.recipes.port;
+        inherit (proxy.recipes) port;
         address = "0.0.0.0";
         extraConfig = {
           TIMEZONE = "Europe/Amsterdam";
