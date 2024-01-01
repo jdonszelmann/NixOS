@@ -29,7 +29,13 @@
   outputs = { nixpkgs, self, microvm, home-manager, deploy-rs, ... }@inputs:
     let
       system = "x86_64-linux";
-      pkgs = import nixpkgs { inherit system; config.allowUnfree = true; };
+      pkgs = import nixpkgs {
+        inherit system;
+        config.allowUnfree = true;
+        overlays = [
+          (import ./pkgs)
+        ];
+      };
       fast-repl = pkgs.writeShellScriptBin "fast-repl" ''
         source /etc/set-environment
         nix repl --file "${./.}/repl.nix" $@

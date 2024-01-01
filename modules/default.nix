@@ -1,3 +1,3 @@
 { inputs, lib, config, ... }: {
-  imports = [ ./matrix-registration ./ifsc-proxy ];
+  imports = [ ./matrix-registration ./ifsc-proxy ./dns.nix ];
 }

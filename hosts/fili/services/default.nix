@@ -16,5 +16,6 @@
     ./recipes.nix
     # ./vpn.nix
     # ./syncthing.nix
+    ./dns.nix
   ];
 }
