@@ -1,6 +1,5 @@
 { config, pkgs, ... }:
 let
-  vs = config.vault-secrets.secrets;
   proxies = import ./reverse-proxy-data.nix;
 in
 {

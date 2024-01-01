@@ -1,6 +1,5 @@
 { pkgs, libs, ... }: {
   imports = [
-    ./vault.nix
     ./databases.nix
     ./reverse-proxy.nix
     # ./md.nix

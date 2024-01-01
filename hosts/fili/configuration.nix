@@ -1,6 +1,5 @@
 { config, pkgs, inputs, ... }: {
   imports = [
-    inputs.vault-secrets.nixosModules.vault-secrets
     inputs.sops-nix.nixosModules.sops
 
     inputs.microvm.nixosModules.host

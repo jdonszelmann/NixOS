@@ -13,9 +13,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    vault-secrets.url = "github:serokell/vault-secrets";
     ifsc-proxy.url = "github:jdonszelmann/ifsc-proxy";
-    vault-unseal.url = "git+https://git.0x76.dev/v/vault-unseal.git";
     nix-minecraft.url = "github:Infinidoge/nix-minecraft";
 
     sops-nix.url = "github:jdonszelmann/sops-nix";
@@ -28,7 +26,7 @@
     comma.url = "github:nix-community/comma";
   };
 
-  outputs = { nixpkgs, vault-secrets, self, microvm, home-manager, deploy-rs, ... }@inputs:
+  outputs = { nixpkgs, self, microvm, home-manager, deploy-rs, ... }@inputs:
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs { inherit system; config.allowUnfree = true; };
@@ -61,27 +59,9 @@
 
       checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
 
-      # packages.${system} = {
-      #   inherit apply-local;
-      #   default = colmena.packages.${system}.colmena;
-
-      #   push-vault-secrets = with pkgs;
-      #     writeScriptBin "push-vault-secrets" ''
-      #       set -o xtrace
-      #       ${vault-push-approles self}/bin/vault-push-approles &&
-      #         ${vault-push-approle-envs self}/bin/vault-push-approle-envs
-      #     '';
-      # };
-
       devShells.${system}.default = pkgs.mkShell {
-        VAULT_ADDR = "http://192.168.0.59:8200/";
         buildInputs = with pkgs; [
-          # apply-local
-          # apply-remote
           deploy-rs.packages.${system}.deploy-rs
-          # vault
-          # (vault-push-approle-envs self { })
-          # (vault-push-approles self { })
           nixUnstable
           fast-repl
         ];
