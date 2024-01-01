@@ -70,5 +70,8 @@ in
   };
   recipes = proxy-vm "recipes.donsz.nl" "recipes";
   ifsc-proxy = proxy-vm "ifsc-proxy.donsz.nl" "ifsc-proxy";
+
+  minio = proxy-port "s3.donsz.nl" 11002;
+  minio-control = proxy-port "s3c.donsz.nl" 11003;
 }
 

@@ -4,7 +4,7 @@
     ./reverse-proxy.nix
     # ./md.nix
     ./matrix.nix
-    # ./minio.nix
+    ./minio.nix
     # ./mastodon.nix
     # ./mapf.nix
     # ./docker-registry.nix
