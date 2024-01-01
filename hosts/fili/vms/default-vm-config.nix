@@ -1,4 +1,4 @@
-{ lib, config, ... }:
+{ lib, config, inputs, ... }:
 let
   host-data = import ./host-data.nix;
 in
@@ -40,11 +40,18 @@ in
       tag = "ro-store";
       proto = "virtiofs";
     }
-    # share the ssh directory between the host and vm
+    # share the etc directory between the host and vm
     {
       source = "/var/lib/microvms/${config.networking.hostName}/storage/etc";
       mountPoint = "/etc";
       tag = "ssh";
+      proto = "virtiofs";
+    }
+    # share /run/secrets with the host for the sops key
+    {
+      source = "/run/secrets";
+      mountPoint = "/run/secrets";
+      tag = "secrets";
       proto = "virtiofs";
     }
   ];

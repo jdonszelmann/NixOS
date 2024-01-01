@@ -14,6 +14,7 @@ in
     concatLists (
       map
         (i: [
+          "d /var/lib/microvms/${i}             0755 microvm -"
           "d /var/lib/microvms/${i}/storage     0755 microvm -"
           "d /var/lib/microvms/${i}/storage/etc 0755 microvm -"
         ])

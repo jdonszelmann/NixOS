@@ -16,9 +16,9 @@ let
       };
     };
   };
-  proxy-vm = domain: hostname: port: {
+  proxy-vm = domain: hostname: rec {
     inherit domain;
-    port = port;
+    port = 8000;
     nginx = {
       ${domain} = {
         enableACME = true;
@@ -68,8 +68,7 @@ in
       };
     };
   };
-  recipes = proxy-port "recipes.donsz.nl" 11002;
-
-  ifsc-proxy = proxy-vm "ifsc-proxy.donsz.nl" "ifsc-proxy" 8000;
+  recipes = proxy-vm "recipes.donsz.nl" "recipes";
+  ifsc-proxy = proxy-vm "ifsc-proxy.donsz.nl" "ifsc-proxy";
 }
 

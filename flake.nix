@@ -18,6 +18,8 @@
     vault-unseal.url = "git+https://git.0x76.dev/v/vault-unseal.git";
     nix-minecraft.url = "github:Infinidoge/nix-minecraft";
 
+    sops-nix.url = "github:jdonszelmann/sops-nix";
+
     microvm = {
       url = "github:astro/microvm.nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -30,30 +32,12 @@
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs { inherit system; config.allowUnfree = true; };
-      # pkgs = nixpkgs.legacyPackages.${system};
-      # pkgs =
-      # util = import ./util/default.nix inputs;
-      # modules = import ./modules/default.nix inputs;
-
-      #   apply-local = pkgs.writeShellScriptBin "apply-local" ''
-      #     "${
-      #       colmena.packages.${system}.colmena
-      #     }"/bin/colmena apply-local --sudo $@
-      #   '';
-
-      #   apply-remote = pkgs.writeShellScriptBin "apply-remote" ''
-      #     "${
-      #       colmena.packages.${system}.colmena
-      #     }"/bin/colmena apply --on "@fili"
-      #   '';
-
       fast-repl = pkgs.writeShellScriptBin "fast-repl" ''
         source /etc/set-environment
         nix repl --file "${./.}/repl.nix" $@
       '';
     in
     {
-      # necessary for vault to work
       nixosConfigurations.fili = nixpkgs.lib.nixosSystem {
         inherit system;
         specialArgs =
@@ -62,6 +46,7 @@
           ./hosts/fili/configuration.nix
         ];
       };
+
       deploy.nodes.fili = {
         hostname = "donsz.nl";
         fastConnection = true;
@@ -73,6 +58,7 @@
           };
         };
       };
+
       checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
 
       # packages.${system} = {
@@ -88,7 +74,7 @@
       # };
 
       devShells.${system}.default = pkgs.mkShell {
-        # VAULT_ADDR = "http://192.168.0.59:8200/";
+        VAULT_ADDR = "http://192.168.0.59:8200/";
         buildInputs = with pkgs; [
           # apply-local
           # apply-remote

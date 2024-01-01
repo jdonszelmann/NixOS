@@ -1,6 +1,8 @@
 { config, pkgs, inputs, ... }: {
   imports = [
     inputs.vault-secrets.nixosModules.vault-secrets
+    inputs.sops-nix.nixosModules.sops
+
     inputs.microvm.nixosModules.host
     inputs.nix-minecraft.nixosModules.minecraft-servers
 
@@ -65,4 +67,9 @@
   #   enable = true;
   #   maxretry = 10;
   # };
+
+  # for secret unlocking.
+  sops.age.keyFile = "/run/secrets/sops-key.txt";
+  sops.defaultSopsFormat = "dotenv";
+  sops.symlinkPath = "/run/secrets/sops";
 }

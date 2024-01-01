@@ -15,6 +15,9 @@
       # and from podman
       host all all 10.88.0.0/16   trust
 
+      # and from vms
+      host all all 10.0.0.0/24    trust
+
       # and the local network
       host all all 192.168.0.0/24 trust
     '';

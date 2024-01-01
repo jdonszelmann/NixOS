@@ -6,7 +6,6 @@
 }:
 let
   proxy = import ./reverse-proxy-data.nix;
-  stateVersion = config.system.stateVersion;
 in
 {
   microvm.vms.ifsc-proxy = {
@@ -14,7 +13,7 @@ in
     specialArgs = { inherit inputs; };
     config = { ... }: {
       imports = [ ../vms/default-vm-config.nix ];
-      system.stateVersion = stateVersion;
+      system.stateVersion = config.system.stateVersion;
 
       services.ifsc-proxy = {
         port = proxy.ifsc-proxy.port;
