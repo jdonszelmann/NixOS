@@ -1,7 +1,6 @@
-_: with builtins;
+{ config, ... }: with builtins;
 let
-  proxy = import ./reverse-proxy-data.nix;
-  host-data = import ../vms/host-data.nix;
+  host-data = config.custom.networking.host;
   host-names = attrNames host-data;
   hosts = map
     (host-name: {
@@ -11,8 +10,6 @@ let
     host-names;
 in
 {
-  services.resolved.enable = false;
-
   services.custom.dns = {
     enable = true;
     openFirewall = true;

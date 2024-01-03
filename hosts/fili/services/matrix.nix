@@ -1,17 +1,18 @@
 { config, pkgs, ... }:
 let
-  proxies = import ./reverse-proxy-data.nix;
+  server_name = config.custom.networking.proxy.matrix.custom.server_name;
+  port = config.custom.networking.proxy.matrix.port;
 in
 {
   services.matrix-synapse = {
     enable = true;
     settings = {
-      inherit (proxies.matrix) server_name;
+      inherit server_name;
       url_preview_enabled = true;
     };
     settings.listeners = [
       {
-        inherit (proxies.matrix) port;
+        inherit port;
         bind_addresses = [ "::1" ];
         type = "http";
         tls = false;

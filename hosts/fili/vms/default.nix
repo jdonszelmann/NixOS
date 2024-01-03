@@ -1,6 +1,7 @@
 { config, ... }:
 let
-  host-data = import ./host-data.nix;
+  # host-data = import ./host-data.nix;
+  host-data = config.custom.networking.host;
   vm-hosts = with builtins; attrNames host-data;
 in
 {

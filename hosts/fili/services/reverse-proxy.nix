@@ -1,12 +1,4 @@
-{ config, pkgs, lib, ... }:
-let
-  virtualHosts = with builtins;
-    let proxies = import ./reverse-proxy-data.nix; in
-    foldl' (a: b: a // b) { } (
-      map (key: (getAttr key proxies).nginx) (attrNames proxies)
-    );
-in
-{
+{ config, pkgs, lib, ... }: {
   services.nginx = {
     enable = true;
     statusPage = true;
@@ -15,8 +7,6 @@ in
     recommendedOptimisation = true;
     recommendedGzipSettings = true;
     clientMaxBodySize = "499m";
-
-    inherit virtualHosts;
   };
 
   networking.firewall.allowedTCPPorts = [

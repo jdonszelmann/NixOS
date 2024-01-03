@@ -9,6 +9,7 @@
     ../default-machine-config.nix
     ./home.nix
     ./storage.nix
+    ./hosts.nix
     ./vms
 
     ./services

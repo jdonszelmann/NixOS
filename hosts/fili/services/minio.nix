@@ -1,6 +1,6 @@
 { lib, config, ... }:
 let
-  proxy = import ./reverse-proxy-data.nix;
+  proxy = config.custom.networking.proxy;
 in
 {
   sops.secrets.minio = {
@@ -10,8 +10,8 @@ in
   services.minio = {
     enable = true;
     rootCredentialsFile = "/run/secrets/sops/minio";
-    listenAddress = ":${toString proxy.minio.port}";
-    consoleAddress = ":${toString proxy.minio-control.port}";
+    listenAddress = ":${toString  proxy."s3.donsz.nl".port}";
+    consoleAddress = ":${toString proxy."s3c.donsz.nl".port}";
     dataDir = [
       "${config.fileSystems.nas.mountPoint}/minio"
     ];

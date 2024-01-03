@@ -6,6 +6,7 @@
   ];
 
   system.stateVersion = "24.05";
+  services.resolved.enable = false;
 
   # Enable SSH
   services.openssh = {

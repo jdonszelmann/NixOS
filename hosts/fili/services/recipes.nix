@@ -1,6 +1,8 @@
 { config, pkgs, inputs, ... }:
 let
-  proxy = import ./reverse-proxy-data.nix;
+  host-data = config.custom.networking.host.ifsc-proxy;
+  port = host-data.proxy."ifsc-proxy.donsz.nl".port;
+
   inherit (config.system) stateVersion;
 in
 {
@@ -10,15 +12,15 @@ in
 
   microvm.vms.recipes = {
     inherit pkgs;
-    specialArgs = { inherit inputs; };
+    specialArgs = { inherit inputs; outer-config = config; };
     config = { config, ... }: {
       imports = [ ../vms/default-vm-config.nix ];
       system.stateVersion = stateVersion;
 
-      networking.firewall.allowedTCPPorts = [ proxy.recipes.port ];
+      networking.firewall.allowedTCPPorts = [ port ];
       services.tandoor-recipes = {
         enable = true;
-        inherit (proxy.recipes) port;
+        port = port;
         address = "0.0.0.0";
         extraConfig = {
           TIMEZONE = "Europe/Amsterdam";

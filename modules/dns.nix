@@ -1,4 +1,4 @@
-{ config, pkgs, lib, flat_hosts, ... }:
+{ config, pkgs, lib, ... }:
 # DNS Module to set up Unbound DNS with all my hosts in the config
 # Used for DNS Servers and my laptop
 with lib; with builtins; with types;
@@ -91,20 +91,6 @@ in
               map (localdomain: ''"${localdomain}}." transparent'') domains;
             local-data = map localData hosts;
             local-data-ptr = map ptrData hosts;
-
-            private-address = [
-              "127.0.0.0/8"
-              "10.0.0.0/8"
-              "::ffff:a00:0/104"
-              "172.16.0.0/12"
-              "::ffff:ac10:0/108"
-              "169.254.0.0/16"
-              "::ffff:a9fe:0/112"
-              "192.168.0.0/16"
-              "::ffff:c0a8:0/112"
-              "fd00::/8"
-              "fe80::/10"
-            ];
           }
           (mkIf (cfg.mode == "server") {
             interface-automatic = "yes";

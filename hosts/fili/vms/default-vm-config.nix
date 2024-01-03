@@ -1,6 +1,7 @@
-{ lib, config, inputs, ... }:
+{ lib, config, outer-config, inputs, ... }:
 let
-  host-data = import ./host-data.nix;
+  # host-data = import ./host-data.nix;
+  host-data = outer-config.custom.networking.host;
 in
 {
   networking.firewall.enable = true;
