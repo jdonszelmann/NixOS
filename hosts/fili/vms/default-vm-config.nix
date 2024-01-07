@@ -55,5 +55,11 @@ in
       tag = "secrets";
       proto = "virtiofs";
     }
+    {
+      source = "/sops";
+      mountPoint = "/sops";
+      tag = "secrets-key";
+      proto = "virtiofs";
+    }
   ];
 }

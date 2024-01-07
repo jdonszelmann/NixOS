@@ -41,6 +41,8 @@
 
   environment.systemPackages = with pkgs; [
     nfs-utils
+    mdadm
+    btrfs-progs
     # pkgs.vault
 
     # pkgs.mastodon
@@ -69,7 +71,7 @@
   # };
 
   # for secret unlocking.
-  sops.age.keyFile = "/run/secrets/sops-key.txt";
+  sops.age.keyFile = "/sops/sops-key.txt";
   sops.defaultSopsFormat = "dotenv";
   sops.symlinkPath = "/run/secrets/sops";
 }

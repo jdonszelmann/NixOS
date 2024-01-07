@@ -2,15 +2,32 @@
 let
   directory = "/storage";
   nas = "${directory}/nas";
+
+  storage = "${directory}/storage";
 in
 {
   fileSystems.nas = {
     mountPoint = "${nas}";
     device = "192.168.0.8:/Backups";
-    fsType = "nfs";
+    fsType = "nfs4";
     options = [
-      "nfsvers=3"
       "fsc"
+      "sync=disabled"
+      "ro"
+    ];
+  };
+
+
+  boot.swraid.enable = true;
+  boot.swraid.mdadmConf = ''
+    ARRAY /dev/md0 metadata=1.2 name=fili:0 UUID=0796fee2:0d9f2908:24af61b0:1250fa0e
+  '';
+  fileSystems.storage = {
+    mountPoint = "${storage}";
+    device = "/dev/md0";
+    fsType = "btrfs";
+    options = [
+      "compress=zstd"
     ];
   };
 
