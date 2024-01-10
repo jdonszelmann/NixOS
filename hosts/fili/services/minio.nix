@@ -13,7 +13,7 @@ in
     listenAddress = ":${toString  proxy."s3.donsz.nl".port}";
     consoleAddress = ":${toString proxy."s3c.donsz.nl".port}";
     dataDir = [
-      "${config.fileSystems.nas.mountPoint}/minio"
+      "${config.fileSystems.storage.mountPoint}/minio"
     ];
   };
 }

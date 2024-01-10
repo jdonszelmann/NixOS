@@ -2,6 +2,7 @@
   imports = [
     ./databases.nix
     ./reverse-proxy.nix
+    ./jellyfin.nix
     # ./md.nix
     ./matrix.nix
     ./minio.nix

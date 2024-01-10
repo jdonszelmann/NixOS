@@ -1,4 +1,4 @@
-{ ... }: {
+{ config, ... }: {
   custom.networking = {
     host.ifsc-proxy = {
       ip = "10.0.0.2";
@@ -11,6 +11,24 @@
       mac = "02:00:00:00:00:03";
       proxy."recipes.donsz.nl" = { };
     };
+
+    # TODO: run jellyfin in a vm with graphics passthrough.
+    # host.jellyfin = {
+    # ip = "10.0.0.4";
+    # mac = "02:00:00:00:00:04";
+    proxy."media.donsz.nl" = {
+      port = 8096;
+      extraNginxDomainConfig = {
+        locations."/".extraConfig = ''
+          proxy_buffering off;
+        '';
+        locations."/socket" = {
+          inherit (config.services.nginx.virtualHosts."media.donsz.nl".locations."/") proxyPass;
+          proxyWebsockets = true;
+        };
+      };
+    };
+    # };
 
     proxy.matrix = rec {
       custom.server_name = "jdonszelmann.nl";

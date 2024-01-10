@@ -28,9 +28,12 @@
 
       # kili (tudelft laptop)
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOAXOTU6E06zjK/zkzlSPhTG35PoNRYgTCStEPUYyjeE jonathan@kili"
+
+      # nori hp tudelft laptop
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOSCuEu1kFg8mAgpOuYZ/IH2Ur7LQP7sQrDjcPmerkSx jonabent@gmail.com"
     ];
     # Make me admin
-    extraGroups = [ "systemd-journal" "wheel" "networkmanager" "libvirtd" "dialout" "storage" "syncthing" ];
+    extraGroups = [ "systemd-journal" "wheel" "networkmanager" "libvirtd" "dialout" "storage" "syncthing" "jellyfin" ];
   };
   users.extraUsers.laura = {
     isNormalUser = true;
