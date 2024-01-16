@@ -22,8 +22,9 @@ let
   worlds = {
     pvpixel = "${directory}/worlds/pvpixel";
     redstone = "${directory}/worlds/redstone";
+    survival = "${directory}/worlds/survival";
   };
-  world = worlds.pvpixel;
+  world = worlds.survival;
 
   createWhitelist = users: with builtins;
     listToAttrs (map
@@ -46,7 +47,7 @@ in
 
     # package = pkgs.papermc;
     # package = pkgs.legacyFabricServers.legacy-fabric-1_12_2;
-    package = pkgs.paperServers.paper-1_12_2;
+    # package = pkgs.paperServers.paper-1_12_2;
 
     whitelist = createWhitelist whitelist;
 
