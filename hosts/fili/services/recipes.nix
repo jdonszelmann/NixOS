@@ -1,7 +1,7 @@
 { config, pkgs, inputs, ... }:
 let
-  host-data = config.custom.networking.host.ifsc-proxy;
-  port = host-data.proxy."ifsc-proxy.donsz.nl".port;
+  host-data = config.custom.networking.host.recipes;
+  port = host-data.proxy."recipes.donsz.nl".port;
 
   inherit (config.system) stateVersion;
 in

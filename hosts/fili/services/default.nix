@@ -18,5 +18,8 @@
     # ./vpn.nix
     # ./syncthing.nix
     ./dns.nix
+
+    # radarr, sonarr, overseerr, etc.
+    ./rr
   ];
 }

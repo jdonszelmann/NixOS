@@ -12,6 +12,17 @@
       proxy."recipes.donsz.nl" = { };
     };
 
+    host.rr = {
+      ip = "10.0.0.4";
+      mac = "02:00:00:00:00:04";
+
+      # aliases
+      proxy."req.donsz.nl" = { port = 10001; };
+      proxy."overseerr.donsz.nl" = { port = 10001; };
+
+      proxy."radarr.donsz.nl" = { port = 10002; };
+    };
+
     # TODO: run jellyfin in a vm with graphics passthrough.
     # host.jellyfin = {
     # ip = "10.0.0.4";
