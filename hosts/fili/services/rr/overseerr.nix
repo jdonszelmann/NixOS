@@ -1,25 +1,22 @@
-{ host-data, ... }:
+{ config, ... }:
 let
-  overseerr-port = host-data.proxy."req.donsz.nl".port;
+  port = config.custom.networking.proxy."req.donsz.nl".port;
 in
 {
-  config.networking.firewall.allowedTCPPorts = [ overseerr-port ];
+  config.networking.firewall.allowedTCPPorts = [ port ];
 
   config.virtualisation.oci-containers.containers = {
     overseerr = {
-      image = "sctx/overseerr:1.33.2";
+      image = "mirror.gcr.io/fallenbagel/jellyseerr:develop";
       environment = {
         PORT = "5555";
         TZ = "Europe/Amsterdam";
         LOG_LEVEL = "debug";
       };
-      ports = [
-        "5555:${toString overseerr-port}"
-      ];
+      extraOptions = [ "--network=host" ];
       volumes = [
-        "/data/overseerr:/app/config"
+        "/var/lib/microvms/rr/storage/data/overseerr:/app/config"
       ];
-      extraOptions = [ "--restart unless-stopped" ];
     };
   };
 }

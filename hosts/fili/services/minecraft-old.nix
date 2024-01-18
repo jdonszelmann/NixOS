@@ -53,8 +53,10 @@ in
 
     serverProperties = {
       server-port = port;
-      difficulty = 0;
+      difficulty = 3;
       gamemode = 0;
+      view-distance = 20;
+      simulation-distance = 20;
       max-players = 8;
       motd = "Minecraft server!";
       white-list = (builtins.length whitelist) != 0;

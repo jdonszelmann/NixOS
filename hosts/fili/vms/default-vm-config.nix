@@ -18,6 +18,10 @@ in
     }
   ];
 
+  environment.etc = {
+    "resolv.conf".text = "nameserver 10.0.0.1\n";
+  };
+
   systemd.network = {
     enable = true;
     networks."20-ether" = {
@@ -25,7 +29,7 @@ in
       networkConfig = {
         Address = [ "${host-data.${config.networking.hostName}.ip}/24" ];
         Gateway = "10.0.0.1";
-        DNS = [ "1.1.1.1" ];
+        DNS = [ "10.0.0.1" ];
         DHCP = "no";
       };
       linkConfig.ActivationPolicy = "always-up";
@@ -34,6 +38,7 @@ in
 
   microvm.hypervisor = "crosvm";
   microvm.guest.enable = true;
+
   microvm.shares = [
     {
       source = "/nix/store";
@@ -48,6 +53,7 @@ in
       tag = "ssh";
       proto = "virtiofs";
     }
+
     # share /run/secrets with the host for the sops key
     {
       source = "/run/secrets";

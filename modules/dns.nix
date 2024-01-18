@@ -98,7 +98,7 @@ in
             access-control = [
               "127.0.0.1/32 allow_snoop"
               "::1 allow_snoop"
-              "10.42.0.0/16 allow"
+              "10.0.0.0/16 allow"
               "127.0.0.0/8 allow"
               "192.168.0.0/23 allow"
               "192.168.2.0/24 allow"
