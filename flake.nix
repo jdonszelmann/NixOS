@@ -8,6 +8,8 @@
 
     deploy-rs.url = "github:serokell/deploy-rs";
 
+    master.url = "github:NixOS/nixpkgs/master";
+
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -28,7 +30,7 @@
     statix.url = "github:nerdypepper/statix";
   };
 
-  outputs = { nixpkgs, self, microvm, home-manager, deploy-rs, statix, ... }@inputs:
+  outputs = { nixpkgs, self, microvm, home-manager, deploy-rs, statix, master, ... }@inputs:
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs {
@@ -47,7 +49,7 @@
       nixosConfigurations.fili = nixpkgs.lib.nixosSystem {
         inherit system;
         specialArgs =
-          { inherit pkgs inputs; };
+          { inherit pkgs inputs master; };
         modules = [
           ./hosts/fili/configuration.nix
         ];

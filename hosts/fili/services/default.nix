@@ -19,6 +19,7 @@
     # ./vpn.nix
     # ./syncthing.nix
     ./dns.nix
+    ./factorio.nix
 
     # radarr, sonarr, overseerr, etc.
     ./rr

@@ -23,6 +23,7 @@ let
     pvpixel = "${directory}/worlds/pvpixel";
     redstone = "${directory}/worlds/redstone";
     survival = "${directory}/worlds/survival";
+    creative = "${directory}/worlds/creative";
   };
   world = worlds.survival;
 
@@ -60,6 +61,7 @@ in
       max-players = 8;
       motd = "Minecraft server!";
       white-list = (builtins.length whitelist) != 0;
+
       enable-rcon = true;
       enable-command-block = true;
       force-gamemode = false;

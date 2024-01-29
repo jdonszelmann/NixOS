@@ -12,6 +12,18 @@
       proxy."recipes.donsz.nl" = { };
     };
 
+    host.torrent = {
+      ip = "10.0.0.4";
+      mac = "02:00:00:00:00:04";
+      proxy."torrent.donsz.nl" = { };
+    };
+
+    host.factorio = {
+      ip = "10.0.0.5";
+      mac = "02:00:00:00:00:05";
+      proxy."factorio.donsz.nl" = { };
+    };
+
     # TODO: run jellyfin in a vm with graphics passthrough.
     # host.jellyfin = {
     # ip = "10.0.0.4";
