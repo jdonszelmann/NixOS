@@ -83,7 +83,6 @@
     shell = pkgs.zsh;
   };
 
-  networking.useDHCP = true;
   services.qemuGuest.enable = true;
 
   # Clean /tmp on boot.

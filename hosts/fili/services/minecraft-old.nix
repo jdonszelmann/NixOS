@@ -25,7 +25,7 @@ let
     survival = "${directory}/worlds/survival";
     creative = "${directory}/worlds/creative";
   };
-  world = worlds.survival;
+  world = worlds.redstone;
 
   createWhitelist = users: with builtins;
     listToAttrs (map
@@ -37,8 +37,8 @@ let
 
   whitelist = with users; [
     # jonathan-brouwer
-    # jonathan
-    # julia
+    jonathan
+    julia
   ];
 in
 {
@@ -47,8 +47,8 @@ in
     declarative = true;
 
     # package = pkgs.papermc;
-    # package = pkgs.legacyFabricServers.legacy-fabric-1_12_2;
-    # package = pkgs.paperServers.paper-1_12_2;
+    package = pkgs.paperServers.paper-1_20_4;
+    # package = pkgs.vanillaServers.vanilla-1_20_4;
 
     whitelist = createWhitelist whitelist;
 
@@ -61,6 +61,10 @@ in
       max-players = 8;
       motd = "Minecraft server!";
       white-list = (builtins.length whitelist) != 0;
+
+      initial-enabled-packs = "update_1_21";
+      level-type = "flat";
+      generator-settings = "{\"biome\"\:\"minecraft\:desert\",\"layers\"\:[{\"block\"\:\"minecraft\:bedrock\",\"height\"\:1},{\"block\"\:\"minecraft\:stone\",\"height\"\:3},{\"block\"\:\"minecraft\:sandstone\",\"height\"\:116}]}";
 
       enable-rcon = true;
       enable-command-block = true;

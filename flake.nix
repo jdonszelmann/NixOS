@@ -38,6 +38,7 @@
         config.allowUnfree = true;
         overlays = [
           (import ./pkgs)
+          inputs.nix-minecraft.overlay
         ];
       };
       fast-repl = pkgs.writeShellScriptBin "fast-repl" ''
@@ -55,6 +56,15 @@
         ];
       };
 
+      nixosConfigurations.ori = nixpkgs.lib.nixosSystem {
+        inherit system;
+        specialArgs =
+          { inherit pkgs inputs master; };
+        modules = [
+          ./hosts/ori/configuration.nix
+        ];
+      };
+
       deploy.nodes.fili = {
         hostname = "donsz.nl";
         fastConnection = true;
@@ -65,6 +75,18 @@
             user = "root";
           };
         };
+      };
+      deploy.nodes.ori = {
+        hostname = "ori";
+        fastConnection = true;
+        profiles = {
+          system = {
+            sshUser = "jonathan";
+            path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.ori;
+            user = "root";
+          };
+        };
+        remoteBuild = true;
       };
 
       checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
