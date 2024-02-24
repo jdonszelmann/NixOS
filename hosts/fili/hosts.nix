@@ -78,6 +78,8 @@
     proxy."s3.donsz.nl" = { port = 11002; };
     proxy."s3c.donsz.nl" = { port = 11003; };
 
+    proxy."relay-status.donsz.nl" = { port = 11004; };
+
     # aliases
     proxy."req.donsz.nl" = { port = 5555; };
     proxy."overseerr.donsz.nl" = { port = 5555; };

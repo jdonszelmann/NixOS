@@ -9,6 +9,7 @@
 
   environment.systemPackages = with pkgs; [
     gnome.gnome-terminal
+    gnome.adwaita-icon-theme
   ];
 
   services.xserver = {

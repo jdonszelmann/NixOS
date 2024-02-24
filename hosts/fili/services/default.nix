@@ -17,7 +17,7 @@
     ./ifsc-proxy.nix
     ./recipes.nix
     # ./vpn.nix
-    # ./syncthing.nix
+    ./syncthing.nix
     ./dns.nix
     ./factorio.nix
 

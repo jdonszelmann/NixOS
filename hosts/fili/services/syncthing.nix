@@ -1,16 +1,11 @@
-{ lib, config, pkgs, inputs, util, ... }:
+{ lib, config, pkgs, inputs, ... }:
 let
-  root = "${config.fileSystems.nas.mountPoint}/syncthing";
+  root = "/storage/storage/syncthing";
   inherit (config.services.syncthing) devices;
 
-  status-domain = "relay-status.donsz.nl";
-  status-port = util.randomPort status-domain;
-  status-proxy = util.reverse-proxy {
-    from = status-domain;
-    to = status-port;
-  };
+  proxy = config.custom.networking.proxy;
 in
-status-proxy.create // {
+{
   services = {
     syncthing = {
       user = "jonathan";
@@ -30,13 +25,12 @@ status-proxy.create // {
           listenAddress = "0.0.0.0";
           providedBy = "Jonathan Dönszelmann";
           statusListenAddress = "0.0.0.0";
-          statusPort = status-port;
+          statusPort = proxy."relay-status.donsz.nl".port;
         };
 
       devices = {
         # lenovo ideapad laptop
         "ori" = {
-          # id = "HOZZUCT-32ZKOC2-SFTZMXC-YMWNP2S-HKR4CSU-3JEI5TC-IMW5SU2-U7HSFAI";
           id = "GQ3BEZA-NPJNM4J-ZEDGEHB-W6XEPQR-SSHEQDA-R6ODPPX-T5ZTO7J-FSCAEQE";
           introducer = true;
           autoAcceptFolders = true;
