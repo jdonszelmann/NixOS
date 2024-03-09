@@ -11,10 +11,14 @@
     discord-canary
     comma
     rustup
+    python3
     spotify
     firefox
     syncthing
     nixfmt
+    xdg-utils
+    # to copy from the command line (my zsh config has an alias `clip` to pipe things to the clipboard)
+    wl-clipboard-rs
   ];
 
   programs.firefox = { enable = true; };
