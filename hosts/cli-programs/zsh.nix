@@ -14,6 +14,14 @@ let
     "jfu" = "journalctl -fu";
     "open" = "xdg-open";
     "clip" = "wl-copy";
+    "git" = "${pkgs.writeText "git_mergetool.sh" ''
+      SEARCH="CONFLICT"
+      OUTPUT=$(git "$@" 2>&1 | tee /dev/tty)
+      if `echo $\{OUTPUT\} | grep -i "$\{SEARCH\}" 1>/dev/null 2>&1`
+      then
+        git mergetool
+      fi
+    ''}";
   };
   # extracting any compressed format
   extract = ''
