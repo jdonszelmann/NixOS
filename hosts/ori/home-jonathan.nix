@@ -1,7 +1,5 @@
-{ config, pkgs, ... }: rec {
-  imports = [
-    ./gnome.nix
-  ];
+{ config, pkgs, inputs, ... }: rec {
+  imports = [ ../programs ];
 
   programs.home-manager.enable = true;
   home.username = "jonathan";
@@ -13,24 +11,23 @@
     discord-canary
     comma
     rustup
-    vscode
     spotify
     firefox
     syncthing
+    nixfmt
   ];
 
-  programs.vscode = {
-    extensions = with pkgs.vscode-extensions; [
-      rust-lang.rust-analyzer
-      jnoortheen.nix-ide
-    ];
-  };
+  programs.firefox = { enable = true; };
 
-  programs.firefox = {
-    enable = true;
-  };
+  services.syncthing = { enable = true; };
 
-  services.syncthing = {
+  programs.git = {
     enable = true;
+    extraConfig = { init.defaultBranch = "main"; };
+    aliases = {
+
+    };
+    userName = "Jonathan Dönszelmann";
+    userEmail = "jonabent@gmail.com";
   };
 }

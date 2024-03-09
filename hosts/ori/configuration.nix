@@ -1,11 +1,9 @@
-{ config, lib, pkgs, inputs, ... }:
-{
-  imports =
-    [
-      inputs.home-manager.nixosModules.home-manager
-      ./hardware-configuration.nix
-      ../default-machine-config.nix
-    ];
+{ config, lib, pkgs, inputs, ... }: {
+  imports = [
+    inputs.home-manager.nixosModules.home-manager
+    ./hardware-configuration.nix
+    ../default-machine-config.nix
+  ];
 
   environment.systemPackages = with pkgs; [
     gnome.gnome-terminal
@@ -20,6 +18,7 @@
 
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
+  home-manager.extraSpecialArgs = { inherit inputs; };
   home-manager.users.jonathan = { ... }: {
     imports = [ ./home-jonathan.nix ];
     home.stateVersion = config.system.stateVersion;
@@ -29,15 +28,11 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking.hostName = "ori"; # Define your hostname.
-  networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
+  networking.networkmanager.enable =
+    true; # Easiest to use and most distros use this by default.
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
-  # console = {
-  #   font = "Lat2-Terminus16";
-  #   keyMap = "us";
-  #   useXkbConfig = true; # use xkb.options in tty.
-  # };
 
   # Enable sound.
   # sound.enable = true;
@@ -49,5 +44,18 @@
   # Open ports in the firewall.
   networking.firewall.allowedTCPPorts = [ 22 ];
   networking.firewall.allowedUDPPorts = [ ];
+
+  programs.steam = {
+    enable = true;
+    remotePlay.openFirewall =
+      true; # Open ports in the firewall for Steam Remote Play
+    dedicatedServer.openFirewall =
+      true; # Open ports in the firewall for Source Dedicated Server
+  };
+
+  # programs.steam.package = pkgs.steam.override {
+  #   withPrimus = true;
+  #   extraPkgs = pkgs: with pkgs; [ bumblebee glxinfo ];
+  # };
 }
 
