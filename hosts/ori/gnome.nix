@@ -129,6 +129,7 @@
         edge-tiling = true;
         experimental-features = [ "scale-monitor-framebuffer" ];
         overlay-key = "Super_L";
+        workspaces-only-on-primary = true;
       };
 
       "org/gnome/mutter/keybindings" = {

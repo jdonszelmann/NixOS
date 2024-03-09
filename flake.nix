@@ -28,6 +28,8 @@
     comma.url = "github:nix-community/comma";
 
     statix.url = "github:nerdypepper/statix";
+
+    nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
   };
 
   outputs = { nixpkgs, self, microvm, home-manager, deploy-rs, statix, master, ... }@inputs:
