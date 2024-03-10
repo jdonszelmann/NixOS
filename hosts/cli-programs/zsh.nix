@@ -14,14 +14,17 @@ let
     "jfu" = "journalctl -fu";
     "open" = "xdg-open";
     "clip" = "wl-copy";
-    "git" = "${pkgs.writeText "git_mergetool.sh" ''
-      SEARCH="CONFLICT"
-      OUTPUT=$(git "$@" 2>&1 | tee /dev/tty)
-      if `echo $\{OUTPUT\} | grep -i "$\{SEARCH\}" 1>/dev/null 2>&1`
-      then
-        git mergetool
-      fi
-    ''}";
+    # TODO: use jetbrains as merge tool?
+    "git" = "${
+        pkgs.writeShellScriptBin "git_mergetool" ''
+          SEARCH="CONFLICT"
+          OUTPUT=$(git "$@" 2>&1 | tee /dev/tty)
+          if `echo ''${OUTPUT} | grep -i "''${SEARCH}" 1>/dev/null 2>&1`
+          then
+            git mergetool
+          fi
+        ''
+      }/bin/git_mergetool";
   };
   # extracting any compressed format
   extract = ''
