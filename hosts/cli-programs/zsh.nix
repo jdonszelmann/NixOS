@@ -6,6 +6,7 @@ let
     "p" = "python -i ${
         pkgs.writeText "init.py" ''
           from math import *;
+          # import numpy as np
         ''
       } ";
     "s" = "systemctl";
@@ -40,7 +41,7 @@ let
         *.tar)       tar xf $1      ;;
         *.tbz2)      tar xjf $1     ;;
         *.tgz)       tar xzf $1     ;;
-        *.zip)       unzip $1       ;;
+        *.zip)       ${pkgs.unzip}/bin/unzip $1       ;;
         *.Z)         uncompress $1  ;;
         *.7z)        7z x $1        ;;
         *.tar.xz)    tar xJf $1     ;;

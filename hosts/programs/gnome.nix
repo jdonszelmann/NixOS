@@ -113,7 +113,7 @@
       "org/gnome/desktop/wm/preferences" = {
         auto-raise = false;
         button-layout = ":,maximize,minimize,close";
-        focus-mode = "sloppy";
+        focus-mode = "click";
         mouse-button-modifier = "<Super>";
         num-workspaces = 6;
         resize-with-right-button = false;

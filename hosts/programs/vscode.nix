@@ -6,6 +6,8 @@
         rust-lang.rust-analyzer
         jnoortheen.nix-ide
         vscodevim.vim
+
+        astro-build.astro-vscode
       ];
 
     userSettings = {

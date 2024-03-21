@@ -1,0 +1,27 @@
+[00:46:54] [main/DEBUG] [FML/]: Injecting tracing printstreams for STDOUT/STDERR.
+[00:46:55] [main/INFO] [FML/]: Forge Mod Loader version 7.99.40.1614 for Minecraft 1.7.10 loading
+[00:46:55] [main/INFO] [FML/]: Java is OpenJDK 64-Bit Server VM, version 1.8.0_402, running on Linux:amd64:6.6.21, installed at /nix/store/xqvdgmhiglrrqiqc1rmhdf4kdghwqvlg-zulu-ca-jdk-8.0.402/jre
+[00:46:55] [main/DEBUG] [FML/]: Java classpath at launch is /nix/store/jzlqdpng59mgxvvcdjgpzjiy8xlvmbzx-gtnh-server-2.5.1/forge-1.7.10-10.13.4.1614-1.7.10-universal.jar
+[00:46:55] [main/DEBUG] [FML/]: Java library path at launch is /nix/store/f57hcd16pfg7mpri5dhqb7jymp20k4l9-cups-2.4.7-lib/lib:/nix/store/jshybw9vhr5hj4mxm4cwpj202cv77nir-cairo-1.18.0/lib:/nix/store/k1qjs35nw1lbssg1l1xpmh0082hy7wl4-glib-2.78.4/lib:/nix/store/szlpn627gzzb6hsasl6dgg1fbp8nj0q0-gtk+3-3.24.41/lib:/nix/store/arv9pn37s3w7ii586rpi644j35pq7byb-gtk+-2.24.33/lib:/usr/java/packages/lib/amd64:/usr/lib64:/lib64:/lib:/usr/lib
+[00:46:55] [main/DEBUG] [FML/]: Enabling runtime deobfuscation
+[00:46:55] [main/DEBUG] [FML/]: Instantiating coremod class FMLCorePlugin
+[00:46:55] [main/DEBUG] [FML/]: Added access transformer class cpw.mods.fml.common.asm.transformers.AccessTransformer to enqueued access transformers
+[00:46:55] [main/DEBUG] [FML/]: Enqueued coremod FMLCorePlugin
+[00:46:55] [main/DEBUG] [FML/]: Instantiating coremod class FMLForgePlugin
+[00:46:55] [main/DEBUG] [FML/]: Added access transformer class net.minecraftforge.transformers.ForgeAccessTransformer to enqueued access transformers
+[00:46:55] [main/DEBUG] [FML/]: Enqueued coremod FMLForgePlugin
+[00:46:55] [main/DEBUG] [FML/]: All fundamental core mods are successfully located
+[00:46:55] [main/DEBUG] [FML/]: Attempting to load commandline specified mods, relative to /home/jonathan/Documents/projects/server/.
+[00:46:55] [main/DEBUG] [FML/]: Discovering coremods
+[00:46:55] [main/INFO] [LaunchWrapper/]: Loading tweak class name cpw.mods.fml.common.launcher.FMLInjectionAndSortingTweaker
+[00:46:55] [main/INFO] [LaunchWrapper/]: Loading tweak class name cpw.mods.fml.common.launcher.FMLDeobfTweaker
+[00:46:55] [main/INFO] [LaunchWrapper/]: Calling tweak class cpw.mods.fml.common.launcher.FMLInjectionAndSortingTweaker
+[00:46:55] [main/INFO] [LaunchWrapper/]: Calling tweak class cpw.mods.fml.common.launcher.FMLInjectionAndSortingTweaker
+[00:46:55] [main/INFO] [LaunchWrapper/]: Calling tweak class cpw.mods.fml.relauncher.CoreModManager$FMLPluginWrapper
+[00:46:55] [main/DEBUG] [FML/]: Injecting coremod FMLCorePlugin {cpw.mods.fml.relauncher.FMLCorePlugin} class transformers
+[00:46:55] [main/TRACE] [FML/]: Registering transformer cpw.mods.fml.common.asm.transformers.MarkerTransformer
+[00:46:55] [main/TRACE] [FML/]: Registering transformer cpw.mods.fml.common.asm.transformers.SideTransformer
+[00:46:55] [main/TRACE] [FML/]: Registering transformer cpw.mods.fml.common.asm.transformers.EventSubscriptionTransformer
+[00:46:55] [main/DEBUG] [FML/]: Injection complete
+[00:46:55] [main/DEBUG] [FML/]: Running coremod plugin for FMLCorePlugin {cpw.mods.fml.relauncher.FMLCorePlugin}
+[00:46:55] [main/DEBUG] [FML/]: Running coremod plugin FMLCorePlugin

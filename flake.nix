@@ -85,6 +85,8 @@
         remoteBuild = true;
       };
 
+      gtnh-server = pkgs.custom.gtnh-server;
+
       checks = builtins.mapAttrs
         (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
 
@@ -95,6 +97,7 @@
           nixUnstable
           fast-repl
         ];
+        shellHook = "exec $NIX_BUILD_SHELL";
       };
     };
 }
