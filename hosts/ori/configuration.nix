@@ -4,6 +4,7 @@
     ./hardware-configuration.nix
     ../default-machine-config.nix
     ./nvidia.nix
+      ./sound.nix
   ];
 
   environment.systemPackages = with pkgs; [
@@ -15,11 +16,15 @@
     zathura
   ];
 
-  services.xserver = {
-    enable = true;
-    displayManager.gdm.enable = true;
-    desktopManager.gnome.enable = true;
-  };
+  services.xserver =
+    {
+      enable = true;
+      displayManager.gdm = {
+        enable = true;
+        wayland = true;
+      };
+      desktopManager.gnome.enable = true;
+    };
 
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
