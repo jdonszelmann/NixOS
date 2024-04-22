@@ -2,24 +2,21 @@
 let
   # host-data = import ./host-data.nix;
   host-data = outer-config.custom.networking.host;
-in
-{
+in {
   networking.firewall.enable = true;
-  imports = [
-    ../../default-machine-config.nix
-  ];
+  imports = [ ../../default-machine-config.nix ];
   environment.noXlibs = lib.mkForce false;
 
-  microvm.interfaces = [
-    {
-      type = "tap";
-      id = "vm-${config.networking.hostName}";
-      mac = "${host-data.${config.networking.hostName}.mac}";
-    }
-  ];
+  microvm.interfaces = [{
+    type = "tap";
+    id = "vm-${config.networking.hostName}";
+    mac = "${host-data.${config.networking.hostName}.mac}";
+  }];
 
   environment.etc = {
-    "resolv.conf".text = "nameserver 10.0.0.1\n";
+    "resolv.conf".text = ''
+      nameserver 10.0.0.1
+    '';
   };
 
   systemd.network = {

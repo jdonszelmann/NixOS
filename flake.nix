@@ -15,6 +15,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    rust-overlay.url = "github:oxalica/rust-overlay";
+
     ifsc-proxy.url = "github:jdonszelmann/ifsc-proxy";
     nix-minecraft.url = "github:Infinidoge/nix-minecraft";
 
@@ -33,17 +35,24 @@
   };
 
   outputs = { nixpkgs, self, microvm, home-manager, deploy-rs, statix, master
-    , ... }@inputs:
+    , rust-overlay, ... }@inputs:
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs {
         inherit system;
         config.allowUnfree = true;
-        overlays = [ (import ./pkgs) inputs.nix-minecraft.overlay ];
+        overlays = [
+          (import ./pkgs)
+          inputs.nix-minecraft.overlay
+          (import rust-overlay)
+        ];
       };
       fast-repl = pkgs.writeShellScriptBin "fast-repl" ''
         source /etc/set-environment
         nix repl --file "${./.}/repl.nix" $@
+      '';
+      local-ori = pkgs.writeShellScriptBin "local-ori" ''
+        nixos-rebuild switch --flake '.#ori'
       '';
     in {
       nixosConfigurations.fili = nixpkgs.lib.nixosSystem {
@@ -85,8 +94,6 @@
         remoteBuild = true;
       };
 
-      gtnh-server = pkgs.custom.gtnh-server;
-
       checks = builtins.mapAttrs
         (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
 
@@ -96,6 +103,7 @@
           statix.packages.${system}.statix
           nixUnstable
           fast-repl
+          local-ori
         ];
         shellHook = "exec $NIX_BUILD_SHELL";
       };

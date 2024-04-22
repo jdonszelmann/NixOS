@@ -10,7 +10,6 @@
     atuin
     discord-canary
     comma
-    rustup
     (python3.withPackages (pip: with pip; [ numpy matplotlib ]))
     spotify
     firefox

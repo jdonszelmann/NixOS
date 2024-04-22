@@ -3,12 +3,16 @@
     inputs.home-manager.nixosModules.home-manager
     ./hardware-configuration.nix
     ../default-machine-config.nix
+    ./nvidia.nix
   ];
 
   environment.systemPackages = with pkgs; [
     gnome.gnome-terminal
     gnome.adwaita-icon-theme
-    llvmPackages.bintools
+    transmission-qt
+    lutris
+    wine
+    zathura
   ];
 
   services.xserver = {
@@ -85,6 +89,8 @@
     xorg.libXtst
     xz
     zlib
+    clang
+    mold
   ];
 }
 
