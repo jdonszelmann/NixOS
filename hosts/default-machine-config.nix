@@ -2,6 +2,7 @@
   imports = [
     ./users.nix
     ../modules
+    ./cli-programs
     # inputs.home-manager.nixosModules.home-manager
   ];
 
@@ -31,37 +32,20 @@
     zoxide
     tmux
     direnv
+    atuin
   ];
 
-  # Setup ZSH to use grml config
-  programs.zsh = {
-    enable = true;
-    enableCompletion = true;
-    syntaxHighlighting.enable = true;
-    interactiveShellInit = ''
-      source "${pkgs.grml-zsh-config}/etc/zsh/zshrc"
-      export FZF_DEFAULT_COMMAND="${pkgs.ripgrep}/bin/rg --files --follow"
-      source "${pkgs.fzf}/share/fzf/key-bindings.zsh"
-      source "${pkgs.fzf}/share/fzf/completion.zsh"
-      eval "$(${pkgs.zoxide}/bin/zoxide init zsh)"
-    '';
-    # otherwise it'll override the grml prompt
-    promptInit = "";
-  };
-  environment.pathsToLink = [ "/share/zsh" ];
-
   # Set up direnv
-  programs.direnv =
-    {
-      package = pkgs.direnv;
-      silent = false;
-      loadInNixShell = true;
-      direnvrcExtra = "";
-      nix-direnv = {
-        enable = true;
-        package = pkgs.nix-direnv;
-      };
+  programs.direnv = {
+    package = pkgs.direnv;
+    silent = false;
+    loadInNixShell = true;
+    direnvrcExtra = "";
+    nix-direnv = {
+      enable = true;
+      package = pkgs.nix-direnv;
     };
+  };
 
   # Install Neovim and set it as alias for vi(m)
   programs.neovim = {
@@ -97,7 +81,6 @@
     enableUserSlices = true;
   };
 
-
   # Limit the systemd journal to 100 MB of disk or the
   # last 7 days of logs, whichever happens first.
   services.journald.extraConfig = ''
@@ -107,9 +90,7 @@
 
   nix = {
     package = pkgs.nixUnstable;
-    settings = {
-      auto-optimise-store = true;
-    };
+    settings = { auto-optimise-store = true; };
     optimise = {
       automatic = true;
       dates = [ "weekly" ];

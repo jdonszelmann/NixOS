@@ -12,8 +12,8 @@
     # ./harmonica.nix
     # ./short.nix
     # ./research-project.nix
+    ./minecraft-gtnh.nix
     # ./minecraft.nix
-    ./minecraft-old.nix
     ./ifsc-proxy.nix
     ./recipes.nix
     # ./vpn.nix

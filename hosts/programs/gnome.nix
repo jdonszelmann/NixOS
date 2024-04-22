@@ -34,7 +34,8 @@
         per-window = false;
         show-all-sources = false;
         sources = [ "('xkb', 'us')" ];
-        xkb-options = [ "lv3:switch" "caps:escape" "eurosign:4" "compose:ralt" ];
+        xkb-options =
+          [ "lv3:switch" "caps:escape" "eurosign:4" "compose:ralt" ];
       };
 
       "org/gnome/desktop/interface" = {
@@ -58,7 +59,7 @@
         edge-scrolling-enabled = false;
         natural-scroll = false;
         send-events = "enabled";
-        speed = 0.53676470588235303;
+        speed = 0.536764705882353;
         tap-to-click = true;
         two-finger-scrolling-enabled = true;
       };
@@ -104,19 +105,15 @@
         switch-to-workspace-up = [ "<Super>k" ];
         switch-windows = [ "@as []" ];
         switch-windows-backward = [ "@as []" ];
-        toggle-fullscreen = [
-          "<Super>f"
-        ];
-        toggle-maximized = [
-          "<Super>d"
-        ];
+        toggle-fullscreen = [ "<Super>f" ];
+        toggle-maximized = [ "<Super>d" ];
         unmaximize = [ "@as []" ];
       };
 
       "org/gnome/desktop/wm/preferences" = {
         auto-raise = false;
         button-layout = ":,maximize,minimize,close";
-        focus-mode = "sloppy";
+        focus-mode = "click";
         mouse-button-modifier = "<Super>";
         num-workspaces = 6;
         resize-with-right-button = false;
@@ -129,6 +126,7 @@
         edge-tiling = true;
         experimental-features = [ "scale-monitor-framebuffer" ];
         overlay-key = "Super_L";
+        workspaces-only-on-primary = true;
       };
 
       "org/gnome/mutter/keybindings" = {
@@ -166,28 +164,33 @@
         window-screenshot-clip = [ "@as []" ];
       };
 
-      "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" = {
-        binding = "<Shift><Super>Return";
-        command = "gnome-terminal";
-        name = "Launch terminal";
-      };
+      "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" =
+        {
+          binding = "<Shift><Super>Return";
+          command = "gnome-terminal";
+          name = "Launch terminal";
+        };
 
-      "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1" = {
-        command = "dbus-send - -session - -type=method_call --dest=org.gnome.Shell /org/gnome/Shell org.gnome.Shell.Eval string:\" Main.overview.show(); \"";
-        name = "Show Overview";
-      };
+      "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1" =
+        {
+          command = ''
+            dbus-send - -session - -type=method_call --dest=org.gnome.Shell /org/gnome/Shell org.gnome.Shell.Eval string:" Main.overview.show(); "'';
+          name = "Show Overview";
+        };
 
-      "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2" = {
-        binding = "<Super>z";
-        command = "gnome-system-monitor";
-        name = "launch system monitor";
-      };
+      "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2" =
+        {
+          binding = "<Super>z";
+          command = "gnome-system-monitor";
+          name = "launch system monitor";
+        };
 
-      "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom3" = {
-        binding = "<Super>Return";
-        command = "gnome-terminal";
-        name = "focus-terminal";
-      };
+      "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom3" =
+        {
+          binding = "<Super>Return";
+          command = "gnome-terminal";
+          name = "focus-terminal";
+        };
 
       "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom4" =
         {
@@ -242,12 +245,8 @@
         theme-variant = "dark";
       };
 
-      "org/gnome/terminal/legacy/keybindings" = {
-        zoom-in = "<Primary>equal";
-      };
+      "org/gnome/terminal/legacy/keybindings" = { zoom-in = "<Primary>equal"; };
     };
   };
 }
-
-
 
