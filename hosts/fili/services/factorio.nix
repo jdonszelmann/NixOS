@@ -9,6 +9,21 @@ let
   host-data = config.custom.networking.host.factorio;
   ip = host-data.ip;
   port = 34197;
+
+  inherit (pkgs) lib;
+  modDir = ./factorio-mods;
+  modList = lib.pipe modDir [
+    builtins.readDir
+    (lib.filterAttrs (k: v: v == "regular"))
+    (lib.mapAttrsToList (k: v: k))
+    (builtins.filter (lib.hasSuffix ".zip"))
+  ];
+  modToDrv = modFileName:
+    pkgs.runCommand "copy-factorio-mods" { } ''
+      mkdir $out
+      cp ${modDir + "/${modFileName}"} $out/${modFileName}
+    ''
+    // { deps = [ ]; };
 in
 {
   #   networking.firewall.extraCommands = "iptables -I FORWARD -p udp --dport ${toString port} -j DNAT --to-destination ${ip}:${toString port}";
@@ -27,14 +42,11 @@ in
     public = false;
     lan = false;
 
-    username = "jonay2000";
-    token = "3bf4f66e585b52fdd2d6b4488bb1d2";
-    game-password = "1123581321";
-    game-name = "Jonathan Dönszelmann";
+    mods = builtins.map modToDrv modList;
 
     enable = true;
     stateDirName = "factorio";
-    saveName = "game1";
+    saveName = "factorissimo";
     admins = [ "jonay2000" ];
     inherit port;
   };

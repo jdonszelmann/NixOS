@@ -5,6 +5,7 @@
       inputs.home-manager.nixosModules.home-manager
       ./hardware-configuration.nix
       ../default-machine-config.nix
+      ./sound.nix
     ];
 
   environment.systemPackages = with pkgs; [
@@ -12,11 +13,15 @@
     gnome.adwaita-icon-theme
   ];
 
-  services.xserver = {
-    enable = true;
-    displayManager.gdm.enable = true;
-    desktopManager.gnome.enable = true;
-  };
+  services.xserver =
+    {
+      enable = true;
+      displayManager.gdm = {
+        enable = true;
+        wayland = true;
+      };
+      desktopManager.gnome.enable = true;
+    };
 
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
