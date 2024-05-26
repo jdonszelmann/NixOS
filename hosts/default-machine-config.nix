@@ -89,7 +89,7 @@
   '';
 
   nix = {
-    package = pkgs.nixUnstable;
+    package = pkgs.nixFlakes;
     settings = { auto-optimise-store = true; };
     optimise = {
       automatic = true;

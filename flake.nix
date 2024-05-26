@@ -32,6 +32,8 @@
     statix.url = "github:nerdypepper/statix";
 
     nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
+
+    homepage.url = "github:jdonszelmann/homepage";
   };
 
   outputs = { nixpkgs, self, microvm, home-manager, deploy-rs, statix, master
@@ -101,7 +103,7 @@
         buildInputs = with pkgs; [
           deploy-rs.packages.${system}.deploy-rs
           statix.packages.${system}.statix
-          nixUnstable
+
           fast-repl
           local-ori
         ];

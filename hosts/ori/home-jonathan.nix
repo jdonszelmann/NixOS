@@ -36,6 +36,7 @@
       # mergetool.meld.cmd = ''
       # ${pkgs.meld}/bin/meld "$LOCAL" "$BASE" "$REMOTE" --output "$MERGED"
       # '';
+      push = { autoSetupRemote = true; };
     };
     aliases = { amend = "commit --amend"; };
     userName = "Jonathan Dönszelmann";

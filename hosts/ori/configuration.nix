@@ -4,7 +4,7 @@
     ./hardware-configuration.nix
     ../default-machine-config.nix
     ./nvidia.nix
-      ./sound.nix
+    ./sound.nix
   ];
 
   environment.systemPackages = with pkgs; [
@@ -14,17 +14,32 @@
     lutris
     wine
     zathura
+    okular
+    podman
   ];
 
-  services.xserver =
-    {
+  environment = {
+    etc."containers/registries.conf".text = ''
+      [registries.search]
+      registries = ['docker.io', 'quay.io', "gcr.io", "eu.gcr.io"]
+    '';
+    etc."containers/policy.json".text = ''
+      {
+        "default": [
+          {"type": "insecureAcceptAnything"}
+        ]
+      }
+    '';
+  };
+
+  services.xserver = {
+    enable = true;
+    displayManager.gdm = {
       enable = true;
-      displayManager.gdm = {
-        enable = true;
-        wayland = true;
-      };
-      desktopManager.gnome.enable = true;
+      wayland = true;
     };
+    desktopManager.gnome.enable = true;
+  };
 
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;

@@ -1,11 +1,21 @@
 { lib, config, ... }:
-with lib; with builtins; with types;
+with lib;
+with builtins;
+with types;
 let
   cfg = config.custom.networking;
 
-  proxy = default-to: submodule ({ name, ... }:
-    {
+  proxy = default-to:
+    submodule ({ name, ... }: {
       options = {
+        root = mkOption {
+          type = nullOr path;
+          description = ''
+            a package with a static folder to serve
+          '';
+          default = null;
+        };
+
         domain = mkOption {
           type = str;
           description = ''
@@ -72,33 +82,30 @@ let
           the machine's mac address
         '';
       };
-      proxy = mkOption
-        {
-          type = attrsOf (proxy cfg.host.${name}.ip);
-          description = "different domains that are exposed";
-        };
+      proxy = mkOption {
+        type = attrsOf (proxy cfg.host.${name}.ip);
+        description = "different domains that are exposed";
+      };
     };
   });
-in
-{
+in {
   options.custom.networking = mkOption ({
-    type = submodule
-      {
-        options = {
-          host = mkOption {
-            type = attrsOf host;
-            description = ''
-              The configuration for each of the different hosts.
-            '';
-          };
-          proxy = mkOption {
-            type = attrsOf (proxy "127.0.0.1");
-            description = ''
-              The configuration for each of the different hosts.
-            '';
-          };
+    type = submodule {
+      options = {
+        host = mkOption {
+          type = attrsOf host;
+          description = ''
+            The configuration for each of the different hosts.
+          '';
+        };
+        proxy = mkOption {
+          type = attrsOf (proxy "127.0.0.1");
+          description = ''
+            The configuration for each of the different hosts.
+          '';
         };
       };
+    };
     description = ''
       The networking config of the server. 
       What hosts exists at what IPs, 
@@ -106,42 +113,35 @@ in
     '';
   });
 
-  config =
-    let
-      attrValues = lib.attrsets.attrValues;
+  config = let
+    attrValues = lib.attrsets.attrValues;
 
-      hosts = attrValues config.custom.networking.host;
-      proxies = attrValues config.custom.networking.proxy;
-      host-proxies = builtins.concatMap (host: attrValues host.proxy) hosts;
-      all-proxies = proxies ++ host-proxies;
-      virtualHosts = foldl'
-        (a: b: mkMerge [ a b ])
-        { }
-        (
-          map
-            (proxy: mkMerge [
-              {
-                ${proxy.domain} = mkMerge [
-                  {
-                    enableACME = true;
-                    forceSSL = true;
-                    locations = {
-                      "/" = {
-                        proxyPass = "http://${proxy.to}:${toString proxy.port}";
-                        proxyWebsockets = true;
-                      };
-                    };
-                  }
-                  proxy.extraNginxDomainConfig
-                ];
-              }
-              proxy.extraNginxConfig
-            ])
-            all-proxies
-        );
-    in
-    {
-      services.nginx.virtualHosts = virtualHosts;
-    };
+    hosts = attrValues config.custom.networking.host;
+    proxies = attrValues config.custom.networking.proxy;
+    host-proxies = builtins.concatMap (host: attrValues host.proxy) hosts;
+    all-proxies = proxies ++ host-proxies;
+    virtualHosts = foldl' (a: b: mkMerge [ a b ]) { } (map (proxy:
+      mkMerge [
+        {
+          ${proxy.domain} = mkMerge [
+            ({
+              enableACME = true;
+              forceSSL = true;
+            } // (if proxy.root == null then {
+              locations = {
+                "/" = {
+                  proxyPass = "http://${proxy.to}:${toString proxy.port}";
+                  proxyWebsockets = true;
+                };
+              };
+            } else {
+              root = proxy.root;
+            }))
+            proxy.extraNginxDomainConfig
+          ];
+        }
+        proxy.extraNginxConfig
+      ]) all-proxies);
+  in { services.nginx.virtualHosts = virtualHosts; };
 }
 

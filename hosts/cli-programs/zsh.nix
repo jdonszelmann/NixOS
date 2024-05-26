@@ -3,12 +3,7 @@ with builtins;
 with lib.attrsets;
 let
   aliases = {
-    "p" = "python -i ${
-        pkgs.writeText "init.py" ''
-          from math import *;
-          # import numpy as np
-        ''
-      } ";
+    "p" = ((import ./scripts.nix) pkgs).calc;
     "s" = "systemctl";
     "j" = "journalctl";
     "ju" = "journalctl -u";
@@ -48,7 +43,7 @@ let
         *)     echo "'$1' cannot be extracted via extract()" ;;
          esac
      else
-         cho "'$1' is not a valid file"
+         echo "'$1' is not a valid file"
      fi
     }
   '';
@@ -65,6 +60,7 @@ in {
       source "${pkgs.fzf}/share/fzf/completion.zsh"
       eval "$(${pkgs.zoxide}/bin/zoxide init zsh)"
       eval "$(${pkgs.atuin}/bin/atuin init zsh)"
+      eval "$(${pkgs.direnv}/bin/direnv hook zsh)"
 
       ${extract}
 

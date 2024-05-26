@@ -12,7 +12,7 @@
     # ./harmonica.nix
     # ./short.nix
     # ./research-project.nix
-    ./minecraft-gtnh.nix
+    # ./minecraft-gtnh.nix
     # ./minecraft.nix
     ./ifsc-proxy.nix
     ./recipes.nix
