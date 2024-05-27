@@ -1,4 +1,30 @@
-{ ... }: {
+{ pkgs, lib, ... }:
+let
+  unbound = [ "@as []" ];
+  custom-keys = [
+    {
+      binding = "<Shift><Super>Return";
+      command = "gnome-terminal";
+      name = "Launch terminal";
+    }
+    {
+      binding = "<Super>z";
+      command = "gnome-system-monitor";
+      name = "launch system monitor";
+    }
+    {
+      binding = "<Super>Return";
+      command = "gnome-terminal";
+      name = "focus-terminal";
+    }
+    {
+      binding = "F12";
+      command =
+        "gnome-terminal -- ${((import ../cli-programs/scripts.nix) pkgs).calc}";
+      name = "calculator";
+    }
+  ];
+in {
   dconf = {
     enable = true;
 
@@ -69,11 +95,11 @@
       };
 
       "org/gnome/desktop/wm/keybindings" = {
-        begin-move = [ "@as []" ];
-        begin-resize = [ "@as []" ];
+        begin-move = unbound;
+        begin-resize = unbound;
         close = [ "<Super>q" ];
-        lower = [ "@as []" ];
-        maximize = [ "@as []" ];
+        lower = unbound;
+        maximize = unbound;
         minimize = [ "<Super>w" ];
         move-to-monitor-down = [ "<Super>Down" ];
         move-to-monitor-left = [ "<Super>Left" ];
@@ -85,15 +111,12 @@
         move-to-workspace-4 = [ "<Shift><Super>dollar" ];
         move-to-workspace-5 = [ "<Shift><Super>percent" ];
         move-to-workspace-6 = [ "<Shift><Super>asciicircum" ];
-        move-to-workspace-down = [ "<Shift><Super>k" ];
-        move-to-workspace-last = [ "<Shift><Super>parenright" ];
-        move-to-workspace-up = [ "<Shift><Super>j" ];
         panel-main-menu = [ "" ];
         raise-or-lower = [ "<Super>s" ];
         switch-applications = [ "<Super>Tab" ];
         switch-applications-backward = [ "<Shift><Super>Tab" ];
-        switch-input-source = [ "@as []" ];
-        switch-input-source-backward = [ "@as []" ];
+        switch-input-source = unbound;
+        switch-input-source-backward = unbound;
         switch-to-workspace-1 = [ "<Super>1" ];
         switch-to-workspace-2 = [ "<Super>2" ];
         switch-to-workspace-3 = [ "<Super>3" ];
@@ -103,11 +126,11 @@
         switch-to-workspace-down = [ "<Super>j" ];
         switch-to-workspace-last = [ "<Super>0" ];
         switch-to-workspace-up = [ "<Super>k" ];
-        switch-windows = [ "@as []" ];
-        switch-windows-backward = [ "@as []" ];
+        switch-windows = unbound;
+        switch-windows-backward = unbound;
         toggle-fullscreen = [ "<Super>f" ];
         toggle-maximized = [ "<Super>d" ];
-        unmaximize = [ "@as []" ];
+        unmaximize = unbound;
       };
 
       "org/gnome/desktop/wm/preferences" = {
@@ -136,68 +159,31 @@
       };
 
       "org/gnome/settings-daemon/plugins/media-keys" = {
-        area-screenshot = [ "@as []" ];
+        area-screenshot = unbound;
         area-screenshot-clip = [ "<Shift><Super>s" ];
-        custom-keybindings = [
-          "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/"
-          "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/"
-          "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/"
-          "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom3/"
-          "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom4/"
-        ];
+        custom-keybindings = with builtins;
+          (map (i:
+            "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom${
+              toString (i - 1)
+            }/") (genList (x: x + 1) (length custom-keys)));
         email = [ "Display" ];
         home = [ "<Super>e" ];
         mic-mute = [ "AudioMicMute" ];
         next = [ "<Super>period" ];
-        on-screen-keyboard = [ "@as []" ];
-        pause = [ "@as []" ];
+        on-screen-keyboard = unbound;
+        pause = unbound;
         play = [ "<Super>slash" ];
         previous = [ "<Super>comma" ];
         screensaver = [ "<Super>l" ];
-        screenshot = [ "@as []" ];
-        screenshot-clip = [ "@as []" ];
-        stop = [ "@as []" ];
+        screenshot = unbound;
+        screenshot-clip = unbound;
+        stop = unbound;
         volume-down = [ "AudioLowerVolume" ];
         volume-mute = [ "AudioMute" ];
         volume-up = [ "AudioRaiseVolume" ];
-        window-screenshot = [ "@as []" ];
-        window-screenshot-clip = [ "@as []" ];
+        window-screenshot = unbound;
+        window-screenshot-clip = unbound;
       };
-
-      "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" =
-        {
-          binding = "<Shift><Super>Return";
-          command = "gnome-terminal";
-          name = "Launch terminal";
-        };
-
-      "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1" =
-        {
-          command = ''
-            dbus-send - -session - -type=method_call --dest=org.gnome.Shell /org/gnome/Shell org.gnome.Shell.Eval string:" Main.overview.show(); "'';
-          name = "Show Overview";
-        };
-
-      "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2" =
-        {
-          binding = "<Super>z";
-          command = "gnome-system-monitor";
-          name = "launch system monitor";
-        };
-
-      "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom3" =
-        {
-          binding = "<Super>Return";
-          command = "gnome-terminal";
-          name = "focus-terminal";
-        };
-
-      "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom4" =
-        {
-          binding = "F12";
-          command = ((import ../cli-programs/scripts.nix) pkgs).calc;
-          name = "calculator";
-        };
 
       "org/gnome/settings-daemon/plugins/power" = {
         ambient-enabled = false;
@@ -224,16 +210,16 @@
       "org/gnome/shell/keybindings" = {
         open-application-menu = [ "Menu" ];
         show-screenshot-ui = [ "<Shift><Super>s" ];
-        switch-to-application-1 = [ "@as []" ];
-        switch-to-application-2 = [ "@as []" ];
-        switch-to-application-3 = [ "@as []" ];
-        switch-to-application-4 = [ "@as []" ];
-        switch-to-application-5 = [ "@as []" ];
-        switch-to-application-6 = [ "@as []" ];
-        switch-to-application-7 = [ "@as []" ];
-        switch-to-application-8 = [ "@as []" ];
-        switch-to-application-9 = [ "@as []" ];
-        toggle-message-tray = [ "@as []" ];
+        switch-to-application-1 = unbound;
+        switch-to-application-2 = unbound;
+        switch-to-application-3 = unbound;
+        switch-to-application-4 = unbound;
+        switch-to-application-5 = unbound;
+        switch-to-application-6 = unbound;
+        switch-to-application-7 = unbound;
+        switch-to-application-8 = unbound;
+        switch-to-application-9 = unbound;
+        toggle-message-tray = unbound;
         toggle-overview = [ "<Super>p" ];
       };
 
@@ -246,7 +232,12 @@
       };
 
       "org/gnome/terminal/legacy/keybindings" = { zoom-in = "<Primary>equal"; };
-    };
+    } // (with builtins;
+      foldl' (a: b: a // b) { } (map (i: {
+        "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom${
+          toString (i - 1)
+        }" = elemAt custom-keys (i - 1);
+      }) (genList (x: x + 1) (length custom-keys))));
   };
 }
 
